@@ -26,3 +26,13 @@
    http://localhost/test
    ```
 
+5. Dockerを停止するには下記を実行
+
+   ```
+   docker-compose down
+   ```
+
+### vagrant
+
+Windows で Hyper-v を有効にしない場合は vagrant 上にDockerを入れて開発する。
+vagrant/Vagrantfile を使って `vagrant up` すれば「Docker」「Docker-Compose」が入ったVM（Centos 8）が立てられる。
