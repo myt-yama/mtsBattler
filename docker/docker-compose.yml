@@ -1,0 +1,17 @@
+version: '2'
+services:
+  bottle:
+    container_name: bottle
+    build: ./bottle
+    volumes:
+        - ../src:/opt/apps
+    command: uwsgi --ini /opt/apps/uwsgi.ini
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    links:
+      - bottle
+    volumes_from:
+      - bottle
+    ports:
+      - "0.0.0.0:80:8080"
