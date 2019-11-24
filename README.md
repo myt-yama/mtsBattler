@@ -9,20 +9,4 @@
 
 ## For Developers
 
-1. 「Docker」と「Docker-Compose」をインストール
-
-2. このリポジトリをクローン
-
-3. 「docker-compose.yml」があるディレクトリで下記を実行
-
-   ```
-   docker-compose build
-   docker-compose up -d
-   ```
-
-4. 下記へアクセスし画面が表示されればOK
-
-   ```
-   http://localhost/test
-   ```
-
+開発環境の構築は[こちら](https://github.com/yamauchi-takeshi/mtsBattler/wiki/Development)
