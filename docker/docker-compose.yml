@@ -4,7 +4,9 @@ services:
     container_name: bottle
     build: ./bottle
     volumes:
-        - ../src:/opt/apps
+      - ../src:/opt/apps
+    ports:
+      - "8000:8000"
     command: uwsgi --ini /opt/apps/uwsgi.ini
   nginx:
     container_name: nginx
