@@ -1,4 +1,9 @@
-from bottle import route, run, default_app, template
+from bottle import route, run, default_app, static_file
+from bottle import jinja2_template as template
+
+@route('/static/<filePath:path>')
+def static(filePath):
+    return static_file(filePath, root='./static')
 
 @route('/battler')
 def battler():
