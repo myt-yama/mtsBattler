@@ -11,6 +11,8 @@ services:
   nginx:
     container_name: nginx
     build: ./nginx
+    volumes:
+      - ../src/static:/static
     links:
       - bottle
     volumes_from:

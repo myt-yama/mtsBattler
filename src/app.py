@@ -1,20 +1,28 @@
-from bottle import route, run, default_app, static_file
+from bottle import route, run, static_file, Bottle
 from bottle import jinja2_template as template
+from modules import sample
 
-@route('/static/<filePath:path>')
+main: Bottle = Bottle()
+
+@main.route('/static/<filePath:path>')
 def static(filePath):
+    """
+    Staticファイルのパス設定
+    """
     return static_file(filePath, root='./static')
 
-@route('/battler')
+@main.route('/battler')
 def battler():
     return 'battler success!!'
 
-@route('/battler/sample')
-def sample():
-    title='Hello world'
-    return template('sample', title=title)
+
+# 以下、URLに対応する別々のモジュールを呼ぶ
+main.mount('/battler/sample', sample.app)
+
 
 if __name__ == '__main__':
-    run(host='0.0.0.0', port=8000, debug=True, reloader=True)
+    # 開発用アプリ起動
+    main.run(host='0.0.0.0', port=8000, debug=True, reloader=True)
 else:
-    application = default_app()
+    # Nginx経由でアプリ起動
+    application = main
