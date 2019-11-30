@@ -1,20 +1,20 @@
-from bottle import route, run, default_app, static_file
+from bottle import route, run, static_file, Bottle
 from bottle import jinja2_template as template
+from modules import sample
 
-@route('/static/<filePath:path>')
+main: Bottle = Bottle()
+
+@main.route('/static/<filePath:path>')
 def static(filePath):
     return static_file(filePath, root='./static')
 
-@route('/battler')
-def battler():
-    return 'battler success!!'
+main.mount('/battler/sample', sample.app)
 
-@route('/battler/sample')
-def sample():
-    title='Hello world'
-    return template('sample', title=title)
+# @route('/battler')
+# def battler():
+#     return 'battler success!!'
 
 if __name__ == '__main__':
-    run(host='0.0.0.0', port=8000, debug=True, reloader=True)
+    main.run(host='0.0.0.0', port=8000, debug=True, reloader=True)
 else:
-    application = default_app()
+    application = main
