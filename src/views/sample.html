@@ -1,11 +1,22 @@
 {% extends "base.html" %}
 {% block title %}
-    <title>sample</title>
+    <title>sample_index</title>
 {% endblock %}
 {% block static %}
     <link rel="stylesheet" type="text/css" href="/static/css/sample.css">
     <script type="text/javascript" src="/static/js/sample.js"></script>
 {% endblock %}
 {% block body %}
-    <h2 class="sample">{{ title }}</h2>
+    <h2 class="sample">{{ params.title }}</h2>
+    <form method="post" action="battle">
+        <div>
+            <label for="name">モンスターA</label>
+            <input type"text" id="a_hp" name="a_hp" value={{ params.a_hp }}>
+        </div>
+        <div>
+            <label for="name">モンスターB</label>
+            <input type"text" id="b_hp" name="b_hp" value={{ params.b_hp }}>
+        </div>
+        <input value="battle" type="submit">
+    </form>
 {% endblock %}
