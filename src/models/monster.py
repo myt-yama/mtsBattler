@@ -36,10 +36,10 @@ class Monster:
         target : Monsterオブジェクト
             攻撃対象
         """
-        rel_hp = self.calcurate_hp_after_attack(target)
+        rel_hp = self.calculate_hp_after_attack(target)
         target.set_hp(rel_hp)
 
-    def calcurate_hp_after_attack(self, target):
+    def calculate_hp_after_attack(self, target):
         """
         対象の攻撃後のHPを計算する
 
