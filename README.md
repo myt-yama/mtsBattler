@@ -9,4 +9,4 @@
 
 ## For Developers
 
-開発環境の構築は[こちら](https://github.com/yamauchi-takeshi/mtsBattler/wiki/Development)
+開発環境の構築は[こちら](https://github.com/yamauchi-takeshi/mtsBattler/wiki#development-environment)
