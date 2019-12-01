@@ -6,9 +6,6 @@ main: Bottle = Bottle()
 
 @main.route('/static/<filePath:path>')
 def static(filePath):
-    """
-    Staticファイルのパス設定
-    """
     return static_file(filePath, root='./static')
 
 @main.route('/battler')
