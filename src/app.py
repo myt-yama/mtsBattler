@@ -1,14 +1,11 @@
 from bottle import route, run, static_file, Bottle
 from bottle import jinja2_template as template
-from modules import sample
+from controllers import sample
 
 main: Bottle = Bottle()
 
 @main.route('/static/<filePath:path>')
 def static(filePath):
-    """
-    Staticファイルのパス設定
-    """
     return static_file(filePath, root='./static')
 
 @main.route('/battler')
