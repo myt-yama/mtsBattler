@@ -1,4 +1,4 @@
-class Monster():
+class Monster:
     """
     モンスタークラス
     　モンスターのパラメータやメソッドを記述する
@@ -23,8 +23,8 @@ class Monster():
         power : int
             モンスターの攻撃力
         """
-        self.__hp = hp
-        self.__power = power
+        self.set_hp(hp)
+        self.set_power(power)
 
     def atack(self, target):
         """
@@ -34,12 +34,33 @@ class Monster():
         Parameters
         ----------
         target : Monsterオブジェクト
+            攻撃対象
         """
-        rel_hp = target.get_hp() - self.get_power()
+        rel_hp = self.calcurate_hp_after_attack(target)
         target.set_hp(rel_hp)
+
+    def calcurate_hp_after_attack(self, target):
+        """
+        対象の攻撃後のHPを計算する
+
+        Parameters
+        ----------
+        target : Monsterオブジェクト
+            攻撃対象
+
+        Returns
+        ----------
+        attacked_hp : int
+            攻撃を受けた後の対象のHP
+        """
+        attacked_hp = target.get_hp() - self.get_power()
+        return attacked_hp
 
     def set_hp(self, hp):
         self.__hp = hp
+
+    def set_power(self, power):
+        self.__power = power
 
     def get_hp(self):
         return self.__hp
