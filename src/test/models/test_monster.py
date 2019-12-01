@@ -8,43 +8,19 @@ sys.path.append('./')
 from models.monster import Monster
 
 class TestMonster(unittest.TestCase):
-    def test_int(self):
+    def test_init(self):
         datas = [
-            {
-                "hp": 100,
-                "power": 30,
-            },
-            {
-                "hp": 1000000,
-                "power": 50000,
-            },
-            {
-                "hp": 0,
-                "power": 0,
-            },
-            {
-                "hp": -10,
-                "power": -40,
-            },
+            { "hp":     100, "power":    30, },
+            { "hp": 1000000, "power": 50000, },
+            { "hp":       0, "power":     0, },
+            { "hp":     -10, "power":   -40, },
         ]
         expected = [
-                {
-                    "hp": 100,
-                    "power": 30,
-                },
-                {
-                    "hp": 1000000,
-                    "power": 50000,
-                },
-                {
-                    "hp": 0,
-                    "power": 0,
-                },
-                {
-                    "hp": -10,
-                    "power": -40,
-                },
-            ]
+            { "hp":     100, "power":    30, },
+            { "hp": 1000000, "power": 50000, },
+            { "hp":       0, "power":     0, },
+            { "hp":     -10, "power":   -40, },
+        ]
         for i in range(len(datas)):
             t_monster = Monster(datas[i]["hp"], datas[i]["power"])
             self.assertEqual(t_monster.get_hp(), expected[i]['hp'])
@@ -54,18 +30,9 @@ class TestMonster(unittest.TestCase):
         # 攻撃対象のモンスター設定
         attacked_monster = Monster(100, 0)
         datas = [
-            {
-                "hp": 100,
-                "power": 30,
-            },
-            {
-                "hp": 0,
-                "power": 0,
-            },
-            {
-                "hp": 10,
-                "power": -40,
-            },
+            { "hp": 100, "power":  30, },
+            { "hp":   0, "power":   0, },
+            { "hp":  10, "power": -40, },
         ]
         expected = [
             70,
