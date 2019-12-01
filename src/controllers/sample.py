@@ -2,6 +2,10 @@ from bottle import jinja2_template as template
 from bottle import route, Bottle, request
 from models import monster
 
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
+
 app: Bottle = Bottle()
 
 @app.route('/index')
@@ -34,8 +38,8 @@ def battle():
     templateオブジェクト
     """
     # monster生成
-    monster_a = monster.Monster(int(request.forms.get('a_hp')), 10)
-    monster_b = monster.Monster(int(request.forms.get('b_hp')), 20)
+    monster_a = monster.Monster(request.forms.get('a_hp'), 10)
+    monster_b = monster.Monster(request.forms.get('b_hp'), 20)
 
     monster_a.atack(monster_b)
     monster_b.atack(monster_a)
@@ -44,5 +48,6 @@ def battle():
         'a_hp' : monster_a.get_hp(),
         'b_hp' : monster_b.get_hp(),
     }
+    # logging.info(template('sample', params=params))
     return template('sample', params=params)
 

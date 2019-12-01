@@ -57,10 +57,10 @@ class Monster:
         return attacked_hp
 
     def set_hp(self, hp):
-        self.__hp = hp
+        self.__hp = int(hp)
 
     def set_power(self, power):
-        self.__power = power
+        self.__power = int(power)
 
     def get_hp(self):
         return self.__hp
