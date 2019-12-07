@@ -1,5 +1,4 @@
 from bottle import route, run, static_file, Bottle
-from bottle import jinja2_template as template
 from controllers import sample
 
 main: Bottle = Bottle()
