@@ -18,22 +18,28 @@ class Summon:
         ----------
         monster : Monsterクラス
         """
-        base_value = monster.get_name()
+        base_value = self._convert_string_to_int(monster.get_name())
         monster.set_hp(self.generate_hp(base_value))
         monster.set_power(self.generate_power(base_value))
         monster.set_defence(self.generate_defence(base_value))
 
-        kanji = self._select_kanji(base_value)
+        kanji = self._select_kanji(monster.get_name())
         monster.set_attribute(self.generate_attribute(kanji))
 
     def generate_hp(self, val):
-        return 100
+        base_hp = 70
+        mod = val % 60
+        return base_hp+mod
 
     def generate_power(self, val):
-        return 30
+        base_power = 10
+        mod = val % 10
+        return base_power+mod
 
     def generate_defence(self, val):
-        return 20
+        base_defence = 10
+        mod = val % 5
+        return base_defence+mod
 
     def generate_attribute(self, kanji):
         bushu_codes = self._select_bushu_codes(kanji)
@@ -88,3 +94,6 @@ class Summon:
             body = json.load(res)
 
         return body['results'][0]['部首内画数'][0]['部首']
+
+    def _convert_string_to_int(self, val):
+        return int(val.encode('utf-8').hex(), 16)
