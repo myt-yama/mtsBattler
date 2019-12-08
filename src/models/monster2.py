@@ -29,6 +29,8 @@ class Monster:
         name    : string
             名前
         """
+        # TODO: 新しく生成 or DBから取得など複数の呼び出し方が考えられるため、
+        #       クラス設計を練り直す必要あり。
         self.set_name(name)
         summoned_monster = summon.Summon(self)
         # summoned_monster.create_parameters(self)
@@ -94,6 +96,14 @@ class Monster:
         return self.__attribute
 
     def get_converted_attribute(self):
+        """
+        属性コードを属性名に変換して取得する
+
+        Returns
+        ----------
+        string
+            属性名
+        """
         attribute = self.__attribute
         if attribute == 0:
             return '火'
