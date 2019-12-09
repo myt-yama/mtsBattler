@@ -7,3 +7,4 @@ RUN pip install --upgrade pip
 RUN pip install bottle
 RUN pip install jinja2
 RUN pip install uwsgi
+RUN pip install redis

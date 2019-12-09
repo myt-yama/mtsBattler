@@ -1,5 +1,5 @@
 from bottle import route, run, static_file, Bottle
-from controllers import sample, summon
+from controllers import sample, summon, redis_test
 
 main: Bottle = Bottle()
 
@@ -15,6 +15,7 @@ def battler():
 # 以下、URLに対応する別々のモジュールを呼ぶ
 main.mount('/battler/sample', sample.app)
 main.mount('/battler/summon', summon.app)
+main.mount('/battler/redis', redis_test.app)
 
 
 if __name__ == '__main__':

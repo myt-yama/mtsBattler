@@ -5,8 +5,11 @@ services:
     build: ./bottle
     volumes:
       - ../src:/opt/apps
+    environment:
+      - REDIS_HOST=redis
     ports:
       - "8000:8000"
+    tty: true
     command: uwsgi --ini /opt/apps/uwsgi.ini
   nginx:
     container_name: nginx
@@ -19,3 +22,19 @@ services:
       - bottle
     ports:
       - "0.0.0.0:80:8080"
+  redis:
+    container_name: redis
+    image: redis:alpine
+    volumes:
+      - redis_data:/data
+  redisCommander:
+    container_name: rediscomannder
+    image: rediscommander/redis-commander
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+volumes:
+  redis_data:
