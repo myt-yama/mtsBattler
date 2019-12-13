@@ -7,33 +7,45 @@ class Monster:
 
     Attributes
     ----------
-    name : string
+    __name         : String
         名前
-    hp    : int
+    __id           : Int
+        モンスターID
+    __hp           : Int
         モンスターのHP
-    power : int
+    __power        : Int
         モンスターの攻撃力
-    defence : int
+    __defence      : Int
         モンスターの防御力
-    attribute : int
-        属性
+    __attribute_cd : Int
+        属性コード
     """
 
-    def __init__(self, name):
+    def __init__(self, name=None :: String, id=None :: Int, hp=None :: Int, power=None :: Int, defence=None :: Int, attribute_cd=None :: Int):
         """
         初期化メソッド
             各パラメータを設定する
 
         Parameters
         ----------
-        name    : string
-            名前
+        name         : string
+        id           : Int
+        hp           : Int
+        power        : Int
+        defence      : Int
+        attribute_cd : Int
         """
         # TODO: 新しく生成 or DBから取得など複数の呼び出し方が考えられるため、
         #       クラス設計を練り直す必要あり。
         self.set_name(name)
-        summoned_monster = summon.Summon(self)
-        # summoned_monster.create_parameters(self)
+        self.set_id(id)
+
+        if id == None:
+            summon.Summon(self)
+        else:
+            self.set_power(power)
+            self.set_defence(defence)
+            self.set_attribute_cd(attribute_cd)
 
     def atack(self, target):
         """
@@ -65,6 +77,9 @@ class Monster:
         attacked_hp = target.get_hp() - self.get_power()
         return attacked_hp
 
+    def set_id(self, id):
+        self.__id = id
+
     def set_name(self, name):
         self.__name = name
 
@@ -77,8 +92,8 @@ class Monster:
     def set_defence(self, defence):
         self.__defence = defence
 
-    def set_attribute(self, attribute):
-        self.__attribute = attribute
+    def set_attribute_cd(self, attribute_cd):
+        self.__attribute_cd = attribute_cd
 
     def get_name(self):
         return self.__name
