@@ -30,8 +30,10 @@ def battle():
     ----------
     templateオブジェクト
     """
-    monster_name = request.forms.getunicode('name')
-    summoned_monster = monster2.Monster(monster_name)
+    monster_params = {
+        'name': request.forms.getunicode('name')
+    }
+    summoned_monster = monster2.Monster(monster_params)
     params = {
         'name': summoned_monster.get_name(),
         'hp' : summoned_monster.get_hp(),

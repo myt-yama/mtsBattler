@@ -1,4 +1,4 @@
-from models import monster
+from models import monster2
 
 import logging
 logging.basicConfig(level=logging.DEBUG)

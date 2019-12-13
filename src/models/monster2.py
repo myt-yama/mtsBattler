@@ -7,45 +7,53 @@ class Monster:
 
     Attributes
     ----------
-    __name         : String
+    __name         : str
         名前
-    __id           : Int
-        モンスターID
-    __hp           : Int
+    __id           : int
+        モンスターのID
+    __hp           : int
         モンスターのHP
-    __power        : Int
+    __power        : int
         モンスターの攻撃力
-    __defence      : Int
+    __defence      : int
         モンスターの防御力
-    __attribute_cd : Int
+    __attribute_cd : int
         属性コード
     """
 
-    def __init__(self, name=None :: String, id=None :: Int, hp=None :: Int, power=None :: Int, defence=None :: Int, attribute_cd=None :: Int):
+    def __init__(self, parameters, summon_flg = True):
         """
         初期化メソッド
             各パラメータを設定する
 
         Parameters
         ----------
-        name         : string
-        id           : Int
-        hp           : Int
-        power        : Int
-        defence      : Int
-        attribute_cd : Int
-        """
-        # TODO: 新しく生成 or DBから取得など複数の呼び出し方が考えられるため、
-        #       クラス設計を練り直す必要あり。
-        self.set_name(name)
-        self.set_id(id)
+        paremeters : dict => {
+                          # 必須項目
+                            name         : string
 
-        if id == None:
+                          # 新規生成の場合は以下不要 
+                          # id はDB登録時に割り振られるため、新規生成以外でも必ずしも設定する必要はない
+                           ,id           : Int
+                           ,hp           : Int
+                           ,power        : Int
+                           ,defence      : Int
+                           ,attribute_cd : Int
+                        }
+            モンスターの能力パラメータ
+        summon_flg : boolean
+            新たにパラメータを生成するかどうか
+        """
+        self.set_name(parameters['name'])
+        # 値がない場合は None を設定する 
+        self.set_id(parameters.get('id'))
+
+        if summon_flg:
             summon.Summon(self)
         else:
-            self.set_power(power)
-            self.set_defence(defence)
-            self.set_attribute_cd(attribute_cd)
+            self.set_power(parameters['power'])
+            self.set_defence(parameters['defence'])
+            self.set_attribute_cd(parameters['attribute_cd'])
 
     def atack(self, target):
         """
@@ -108,7 +116,7 @@ class Monster:
         return self.__defence
 
     def get_attribute(self):
-        return self.__attribute
+        return self.__attribute_cd
 
     def get_converted_attribute(self):
         """
@@ -119,7 +127,7 @@ class Monster:
         string
             属性名
         """
-        attribute = self.__attribute
+        attribute = self.__attribute_cd
         if attribute == 0:
             return '火'
         elif attribute == 1:

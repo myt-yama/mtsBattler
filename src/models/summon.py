@@ -26,7 +26,7 @@ class Summon:
 
         # 属性だけは名前に含まれる漢字を使う
         kanji = self._select_kanji(monster.get_name())
-        monster.set_attribute(self.generate_attribute(kanji))
+        monster.set_attribute_cd(self.generate_attribute(kanji))
 
     def generate_hp(self, val):
         """
