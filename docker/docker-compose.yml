@@ -22,6 +22,14 @@ services:
       - bottle
     ports:
       - "0.0.0.0:80:8080"
+  sass:
+    container_name: sass
+    build: ./sass
+    volumes:
+      - ../src/static:/static
+    stdin_open: true
+    tty: true
+    command: sass --watch /static/scss:/static/css
   redis:
     container_name: redis
     image: redis:alpine
