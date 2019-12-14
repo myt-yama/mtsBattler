@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>redis</title>
+{% endblock %}
+{% block static %}
+    <link rel="stylesheet" type="text/css" href="/static/css/sample.css">
+    <script type="text/javascript" src="/static/js/sample.js"></script>
+{% endblock %}
+{% block body %}
+    <h2 class="sample">チーム名を入力してください</h2>
+    <form method="post" action="register_team">
+        <div>
+            <input type"text" id="team_name" name="team_name" value="">
+        </div>
+        <input value="チーム作成" type="submit">
+    </form>
+    <a href="monsters">モンスター一覧へ</a>
+{% endblock %}
