@@ -25,12 +25,14 @@ def monsters():
     r = DbAccess.get_connection_to_redis()
     if request.method == 'POST':
         team_name = request.forms.getunicode('team')
-        monsters_db = list(r.smembers(team_name+'monster'))
+        monster_keys = r.smembers(team_name+'monster')
+        p = r.pipeline()
+        for key in monster_keys:
+            p.hgetall(key)
         monsters = []
-        for monster in monsters_db:
-            status = r.hgetall(monster)
-            status['attribute'] = ''.join(list(map(lambda x: convert_attribute_cd(x), status['attribute'].split(','))))
-            monsters.append(status)
+        for monster in p.execute():
+            monster['attribute'] = ''.join(list(map(lambda x: convert_attribute_cd(x), monster['attribute'].split(','))))
+            monsters.append(monster)
     else:
         monsters = ''
     teams =list(r.smembers('teams'))
