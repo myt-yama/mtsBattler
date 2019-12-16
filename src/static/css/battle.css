@@ -1,0 +1,43 @@
+@font-face {
+    font-family: "battle";
+    src: url("/static/NuAnkoMochi-BarHrE-1.otf");
+}
+.battle {
+    background-image: url(/static/battle_back.png);
+    background-size: cover;
+    font-family: "battle";
+}
+.battle-status {
+    display: flex;
+    justify-content: center;
+}
+.battle-status-hit_point progress {
+    height: 50px;
+    width: 30vw;
+    display: flex;
+    align-items: center;
+}
+.battle-status-turn_count {
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+.battle-status-turn_count p {
+    width: 100%;
+    margin: 0 auto;
+}
+.battle-character {
+    display: flex;
+    justify-content: space-around;
+}
+
+
+
+.battle-spec {
+    display: flex;
+    justify-content: space-around;
+}
+#spec1 {
+}
+#spec2 {
+}
