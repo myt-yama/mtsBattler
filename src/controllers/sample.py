@@ -51,3 +51,21 @@ def battle():
     # logging.info(template('sample', params=params))
     return template('sample', params=params)
 
+@app.route('/summon')
+def summon():
+    """
+    モンスター生成
+
+    Returns
+    ----------
+    templateオブジェクト
+    """
+    # monster生成
+    monster_a = monster.Monster(100, 10)
+    monster_b = monster.Monster(110, 20)
+    params = {
+        'title': 'Index',
+        'a_hp' : monster_a.get_hp(),
+        'b_hp' : monster_b.get_hp(),
+    }
+    return template('summon', params=params)
