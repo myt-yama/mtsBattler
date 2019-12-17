@@ -7,10 +7,12 @@ class Monster:
 
     Attributes
     ----------
+    __key          : str
+        キー（チーム名+名前）
     __name         : str
         名前
-    __id           : int
-        モンスターのID
+    __team         : str
+        チーム名
     __hp           : int
         モンスターのHP
     __power        : int
@@ -19,9 +21,11 @@ class Monster:
         モンスターの防御力
     __attribute_cd : int
         属性コード
+    __atribute     : str
+        属性（属性コードを元に変換）
     """
 
-    def __init__(self, parameters, summon_flg = True):
+    def __init__(self, parameters, summon_flg = False):
         """
         初期化メソッド
             各パラメータを設定する
@@ -29,31 +33,29 @@ class Monster:
         Parameters
         ----------
         paremeters : dict => {
-                          # 必須項目
-                            name         : string
-
-                          # 新規生成の場合は以下不要 
-                          # id はDB登録時に割り振られるため、新規生成以外でも必ずしも設定する必要はない
-                           ,id           : Int
-                           ,hp           : Int
-                           ,power        : Int
-                           ,defence      : Int
-                           ,attribute_cd : Int
+                         # モンスターを生成する場合は name, teamが必須
+                            name         : str
+                           ,team         : str
+                           ,hp           : int
+                           ,power        : int
+                           ,defence      : int
+                           ,attribute_cd : str => "code, code, ..."
                         }
             モンスターの能力パラメータ
         summon_flg : boolean
             新たにパラメータを生成するかどうか
         """
         self.set_name(parameters['name'])
-        # 値がない場合は None を設定する 
-        self.set_id(parameters.get('id'))
+        self.set_team(parameters('team'))
 
         if summon_flg:
-            summon.Summon(self)
+            summon.Summon(self, summon_flg)
         else:
+            self.set_power(parameters['hp'])
             self.set_power(parameters['power'])
             self.set_defence(parameters['defence'])
             self.set_attribute_cd(parameters['attribute_cd'])
+        self.set_attribute(''.join(list(map(lambda x: convert_from_attribute_cd(x), self.get_attribute_cd().split(',')))))
 
     def atack(self, target):
         """
@@ -115,24 +117,15 @@ class Monster:
     def get_defence(self):
         return self.__defence
 
-    def get_attribute(self):
+    def get_attribute_cd(self):
         return self.__attribute_cd
 
-    def get_converted_attribute(self):
-        """
-        属性コードを属性名に変換して取得する
-
-        Returns
-        ----------
-        string
-            属性名
-        """
-        attribute = self.__attribute_cd
-        if attribute == 0:
+    def convert_from_attribute_cd(self, code):
+        if code == 0:
             return '火'
-        elif attribute == 1:
+        elif code == 1:
             return '水'
-        elif attribute == 2:
+        elif code == 2:
             return '土'
         else:
             return '無'
