@@ -1,4 +1,7 @@
-from models import summon
+from models import summon2
+
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 class Monster:
     """
@@ -46,16 +49,16 @@ class Monster:
             新たにパラメータを生成するかどうか
         """
         self.set_name(parameters['name'])
-        self.set_team(parameters('team'))
+        self.set_team(parameters['team'])
 
         if summon_flg:
-            summon.Summon(self, summon_flg)
+            summon2.Summon(self, summon_flg)
         else:
-            self.set_power(parameters['hp'])
+            self.set_hp(parameters['hp'])
             self.set_power(parameters['power'])
             self.set_defence(parameters['defence'])
             self.set_attribute_cd(parameters['attribute_cd'])
-        self.set_attribute(''.join(list(map(lambda x: convert_from_attribute_cd(x), self.get_attribute_cd().split(',')))))
+        self.set_attribute(''.join(list(map(lambda x: self.convert_from_attribute_cd(x), self.get_attribute_cd().split(',')))))
 
     def atack(self, target):
         """
@@ -87,38 +90,44 @@ class Monster:
         attacked_hp = target.get_hp() - self.get_power()
         return attacked_hp
 
-    def set_id(self, id):
-        self.__id = id
+    def set_team(self, team):
+        self.team = team
 
     def set_name(self, name):
-        self.__name = name
+        self.name = name
 
     def set_hp(self, hp):
-        self.__hp = int(hp)
+        self.hp = int(hp)
 
     def set_power(self, power):
-        self.__power = int(power)
+        self.power = int(power)
 
     def set_defence(self, defence):
-        self.__defence = defence
+        self.defence = defence
 
     def set_attribute_cd(self, attribute_cd):
-        self.__attribute_cd = attribute_cd
+        self.attribute_cd = attribute_cd
+
+    def set_attribute(self, attribute):
+        self.attribute = attribute
+
+    def get_team(self):
+        return self.team
 
     def get_name(self):
-        return self.__name
+        return self.name
 
     def get_hp(self):
-        return self.__hp
+        return self.hp
 
     def get_power(self):
-        return self.__power
+        return self.power
 
     def get_defence(self):
-        return self.__defence
+        return self.defence
 
     def get_attribute_cd(self):
-        return self.__attribute_cd
+        return self.attribute_cd
 
     def convert_from_attribute_cd(self, code):
         if code == 0:
