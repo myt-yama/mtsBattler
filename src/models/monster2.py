@@ -1,7 +1,5 @@
+from models.model import *
 from models import summon2
-
-import logging
-logging.basicConfig(level=logging.DEBUG)
 
 class Monster:
     """

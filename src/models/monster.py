@@ -1,3 +1,5 @@
+from models.model import *
+
 class Monster:
     """
     モンスタークラス

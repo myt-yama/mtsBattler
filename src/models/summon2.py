@@ -1,9 +1,7 @@
+from models.model import *
 import re
 import urllib.request
 import json
-
-import logging
-logging.basicConfig(level=logging.DEBUG)
 
 class Summon:
     """

@@ -1,8 +1,6 @@
-from utils.dbaccess import DbAccess
+from models.model import *
 from models import monster2
-
-import logging
-logging.basicConfig(level=logging.DEBUG)
+from utils.dbaccess import DbAccess
 
 class RedisMonster:
     """

@@ -1,10 +1,5 @@
-from bottle import jinja2_template as template
-from bottle import route, Bottle, request
+from controllers.controller import *
 from models import monster2
-
-import logging
-logging.basicConfig(level=logging.DEBUG)
-
 
 app: Bottle = Bottle()
 
