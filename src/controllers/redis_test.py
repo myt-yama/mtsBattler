@@ -1,9 +1,6 @@
-from bottle import jinja2_template as template
-from bottle import route, Bottle, request
-from utils.dbaccess import DbAccess
-
-import logging
-logging.basicConfig(level=logging.DEBUG)
+from controllers.controller import *
+from models import redismodel
+from models.monster import Monster
 
 app: Bottle = Bottle()
 
@@ -15,27 +12,18 @@ def index():
 @app.route('/register_team', 'POST')
 def register_team():
     team_name = request.forms.getunicode('team_name')
-    r = DbAccess.get_connection_to_redis()
-    r.sadd('teams', team_name)
+    redismodel.RedisTeams().register(team_name)
     return template('redis_index')
 
 @app.route('/monsters')
 @app.route('/monsters', 'POST')
 def monsters():
-    r = DbAccess.get_connection_to_redis()
     if request.method == 'POST':
-        team_name = request.forms.getunicode('team')
-        monster_keys = r.smembers(team_name+'monster')
-        p = r.pipeline()
-        for key in monster_keys:
-            p.hgetall(key)
-        monsters = []
-        for monster in p.execute():
-            monster['attribute'] = ''.join(list(map(lambda x: convert_attribute_cd(x), monster['attribute'].split(','))))
-            monsters.append(monster)
+        team = request.forms.getunicode('team')
+        monsters = redismodel.RedisMonster().select_all(team)
     else:
         monsters = ''
-    teams =list(r.smembers('teams'))
+    teams = redismodel.RedisTeams().select()
     params = {
          'teams': teams,
          'monsters': monsters,
@@ -44,24 +32,16 @@ def monsters():
 
 @app.route('/register_monster', 'POST')
 def register_monster():
-    team_name = str(request.forms.getunicode('team-name'))
+    team = str(request.forms.getunicode('team-name'))
     name = str(request.forms.getunicode('name'))
-    hp = request.forms.getunicode('hp')
-    power = request.forms.getunicode('power')
-    defence = request.forms.getunicode('defence')
-    attribute = request.forms.getunicode('attribute')
+    monster_params = {
+        'name' : name,
+        'team' : team,
+    }
+    monster = Monster(monster_params, True)
+    redismodel.RedisMonster().register(monster)
 
-    r = DbAccess.get_connection_to_redis()
-    p = r.pipeline()
-    p.sadd(team_name+'monster', team_name+'-'+name)
-    p.hset(team_name+'-'+name, 'name', name)
-    p.hset(team_name+'-'+name, 'hp', hp)
-    p.hset(team_name+'-'+name, 'power', power)
-    p.hset(team_name+'-'+name, 'defence', defence)
-    p.hset(team_name+'-'+name, 'attribute', attribute)
-    p.execute()
-
-    teams =list(r.smembers('teams'))
+    teams = redismodel.RedisTeams().select()
     params = {
          'teams': teams,
          'monsters': '',

@@ -1,10 +1,5 @@
-from bottle import jinja2_template as template
-from bottle import route, Bottle, request
-from models import monster2
-
-import logging
-logging.basicConfig(level=logging.DEBUG)
-
+from controllers.controller import *
+from models.monster import Monster
 
 app: Bottle = Bottle()
 
@@ -30,13 +25,16 @@ def battle():
     ----------
     templateオブジェクト
     """
-    monster_name = request.forms.getunicode('name')
-    summoned_monster = monster2.Monster(monster_name)
+    monster_params = {
+        'team': 'team-A',
+        'name': request.forms.getunicode('name')
+    }
+    summoned_monster = Monster(monster_params, True)
     params = {
         'name': summoned_monster.get_name(),
         'hp' : summoned_monster.get_hp(),
         'power' : summoned_monster.get_power(),
         'defence': summoned_monster.get_defence(),
-        'attribute': summoned_monster.get_converted_attribute(),
+        'attribute': summoned_monster.get_attribute(),
     }
     return template('summon_result', params=params)
