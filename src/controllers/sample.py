@@ -1,5 +1,5 @@
 from controllers.controller import *
-from models import monster
+from models.monster import Monster
 
 app: Bottle = Bottle()
 
@@ -13,8 +13,8 @@ def index():
     templateオブジェクト
     """
     # monster生成
-    monster_a = monster.Monster(100, 10)
-    monster_b = monster.Monster(110, 20)
+    monster_a = Monster({'name': '轟', 'team': 'team-A'}, True)
+    monster_b = Monster({'name': '轆轤', 'team': 'team-B'}, True)
     params = {
         'title': 'Index',
         'a_hp' : monster_a.get_hp(),
@@ -33,8 +33,10 @@ def battle():
     templateオブジェクト
     """
     # monster生成
-    monster_a = monster.Monster(request.forms.get('a_hp'), 10)
-    monster_b = monster.Monster(request.forms.get('b_hp'), 20)
+    a_hp = request.forms.get('a_hp')
+    b_hp = request.forms.get('b_hp')
+    monster_a = Monster({'name': '轟', 'team': 'team-A', 'hp': a_hp, 'power': 10}, True)
+    monster_b = Monster({'name': '轆轤', 'team': 'team-B', 'hp': b_hp, 'power': 20}, True)
 
     monster_a.atack(monster_b)
     monster_b.atack(monster_a)
@@ -56,8 +58,8 @@ def summon():
     templateオブジェクト
     """
     # monster生成
-    monster_a = monster.Monster(100, 10)
-    monster_b = monster.Monster(110, 20)
+    monster_a = Monster({'name': '轟', 'team': 'team-A'}, True)
+    monster_b = Monster({'name': '轆轤', 'team': 'team-B'}, True)
     params = {
         'title': 'Index',
         'a_hp' : monster_a.get_hp(),

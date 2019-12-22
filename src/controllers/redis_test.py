@@ -1,5 +1,6 @@
 from controllers.controller import *
-from models import redismodel, monster2
+from models import redismodel
+from models.monster import Monster
 
 app: Bottle = Bottle()
 
@@ -37,7 +38,7 @@ def register_monster():
         'name' : name,
         'team' : team,
     }
-    monster = monster2.Monster(monster_params, True)
+    monster = Monster(monster_params, True)
     redismodel.RedisMonster().register(monster)
 
     teams = redismodel.RedisTeams().select()

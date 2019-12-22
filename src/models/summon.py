@@ -8,80 +8,82 @@ class Summon:
     モンスター生成クラス
     　モンスターのパラメータを生成する
     """
-    def __init__(self, monster):
+    def __init__(self, monster, summon_flg = False):
         """
-        パラメータを設定する
+        パラメータを生成する
 
         Parameters
         ----------
-        monster : Monsterクラス
+        monster    : Monster
+        summon_flg : boolean
         """
-        # パラメータ計算の元となる値を取得
-        base_value = self._convert_string_to_int(monster.get_name())
-        monster.set_hp(self.generate_hp(base_value))
-        monster.set_power(self.generate_power(base_value))
-        monster.set_defence(self.generate_defence(base_value))
+        self.monster = monster
+        if summon_flg:
+            self.genereate_parameters_by_name(monster.get_name())
 
-        # 属性だけは名前に含まれる漢字を使う
-        kanji = self._select_kanji(monster.get_name())
-        monster.set_attribute_cd(self.generate_attribute(kanji))
+    def genereate_parameters_by_name(self, name):
+        """
+        名前を元にすべてのパラメータを生成しセットする
 
-    def generate_hp(self, val):
+        Parameters
+        ----------
+        name : str
+            モンスター生成の元データ
+        """
+        base_value = self._convert_string_to_int(name)
+        kanji = self._select_kanji(name)
+
+        self.generate_hp(base_value),
+        self.generate_power(base_value),
+        self.generate_defence(base_value),
+        self.generate_attribute(kanji),
+
+    def generate_hp(self, value):
         """
         HPを生成する
 
         Parameters
         ----------
-        val : int
+        value : int
             パラメータ生成の元となる値
-
-        Returns
-        ----------
-        int
-            算出したHPの値
         """
         # TODO: ロジック作る
         base_hp = 70
-        mod = val % 60
-        return base_hp+mod
+        mod = value % 60
+        result = base_hp+mod
 
-    def generate_power(self, val):
+        self.monster.set_hp(result)
+
+    def generate_power(self, value):
         """
         攻撃力を計算する
 
         Parameters
         ----------
-        val : int
+        value : int
             パラメータ生成の元となる値
-
-        Returns
-        ----------
-        int
-            算出した攻撃力の値
         """
         # TODO: ロジック作る
         base_power = 10
-        mod = val % 10
-        return base_power+mod
+        mod = value % 10
+        result = base_power+mod
 
-    def generate_defence(self, val):
+        self.monster.set_power(result)
+
+    def generate_defence(self, value):
         """
         防御力を計算する
 
         Parameters
         ----------
-        val : int
+        value : int
             パラメータ生成の元となる値
-
-        Returns
-        ----------
-        int
-            算出した防御力の値
         """
         # TODO: ロジック作る
         base_defence = 10
-        mod = val % 5
-        return base_defence+mod
+        mod = value % 5
+        result =  base_defence+mod
+        self.monster.set_defence(result)
 
     def generate_attribute(self, kanji):
         """
@@ -91,15 +93,10 @@ class Summon:
         ----------
         kanji : string
             漢字の羅列
-
-        Returns
-        ----------
-        int
-            属性コード
         """
         # TODO: ロジック作る
         bushu_codes = self._select_bushu_codes(kanji)
-        return self._judge_attribute(bushu_codes)
+        self.monster.set_attribute_cd(self._judge_attribute(bushu_codes))
 
     def _select_kanji(self, value):
         """
@@ -135,11 +132,11 @@ class Summon:
         """
         if len(bushu_codes)>0:
             if bushu_codes[0] > 50:
-                return 0
+                return '0'
             else:
-                return 1
+                return '1'
         else:
-            return 2
+            return '2'
 
     def _select_bushu_codes(self, kanji):
         """
@@ -204,3 +201,6 @@ class Summon:
             10進数に変換した値
         """
         return int(val.encode('utf-8').hex(), 16)
+
+    def get_monster(self):
+        return self.monster

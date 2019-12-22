@@ -1,5 +1,5 @@
 from models.model import *
-from models import monster2
+from models.monster import Monster
 from utils.dbaccess import DbAccess
 
 class RedisMonster:
@@ -43,7 +43,7 @@ class RedisMonster:
         """
         redis = DbAccess.get_connection_to_redis()
         monster = redis.hgetall(key)
-        return monster2.Monster(monster)
+        return Monster(monster)
 
     def select_all(self, team):
         """
@@ -61,7 +61,7 @@ class RedisMonster:
         monsters = []
         for monster in pipe.execute():
             monster['team'] = team
-            monsters.append(monster2.Monster(monster))
+            monsters.append(Monster(monster))
         return monsters
 
 class RedisTeams:

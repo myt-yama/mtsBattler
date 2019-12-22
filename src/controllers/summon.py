@@ -1,5 +1,5 @@
 from controllers.controller import *
-from models import monster2
+from models.monster import Monster
 
 app: Bottle = Bottle()
 
@@ -26,14 +26,15 @@ def battle():
     templateオブジェクト
     """
     monster_params = {
+        'team': 'team-A',
         'name': request.forms.getunicode('name')
     }
-    summoned_monster = monster2.Monster(monster_params)
+    summoned_monster = Monster(monster_params, True)
     params = {
         'name': summoned_monster.get_name(),
         'hp' : summoned_monster.get_hp(),
         'power' : summoned_monster.get_power(),
         'defence': summoned_monster.get_defence(),
-        'attribute': summoned_monster.get_converted_attribute(),
+        'attribute': summoned_monster.get_attribute(),
     }
     return template('summon_result', params=params)
