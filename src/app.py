@@ -1,5 +1,5 @@
 from bottle import route, run, static_file, Bottle
-from controllers import sample, summon, redis_test
+from controllers import sample, summon, redis_test, farm
 
 main: Bottle = Bottle()
 
@@ -16,6 +16,7 @@ def battler():
 main.mount('/battler/sample', sample.app)
 main.mount('/battler/summon', summon.app)
 main.mount('/battler/redis', redis_test.app)
+main.mount('/battler/farm', farm.app)
 
 
 if __name__ == '__main__':
