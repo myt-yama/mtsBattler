@@ -20,4 +20,18 @@ $(document).ready(function() {
         // is_locked: true,
         // hide_close: true
     });
+
+    $('#status').on('click', '.register', function(){
+        let register_flg = $(this).val();
+        let id = $('#id').val();
+        $.ajax({
+            type: 'POST',
+            url: 'register',
+            data: {
+                id: id,
+                register_flg: register_flg
+            },
+        })
+        $('#summon_button').modaal('close');
+    });
 })
