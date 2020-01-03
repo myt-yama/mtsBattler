@@ -12,13 +12,10 @@ $(document).ready(function() {
             .done(function(response) {
                 $('#status').html(response);
             })
-            // .fail(function(response) {
-            //   alert("false");
-            // })
         },
         content_source: '#modal',
-        // is_locked: true,
-        // hide_close: true
+        is_locked: true,
+        hide_close: true
     });
 
     $('#status').on('click', '.register', function(){
