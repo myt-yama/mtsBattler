@@ -12,7 +12,9 @@ class RedisMonster:
 
         Parameters
         ----------
-        monster : Monseter
+        monster  : Monseter
+        tmp_flg : boolean
+            仮登録を行うかどうか
         """
         redis = DbAccess.get_connection_to_redis()
         pipe = redis.pipeline()
@@ -35,6 +37,11 @@ class RedisMonster:
     def delete(self, key):
         """
         モンスターの削除処理
+
+        Parameters
+        ----------
+        key : str
+            モンスター識別キー
         """
         redis = DbAccess.get_connection_to_redis()
         redis.delete(key)
@@ -47,7 +54,7 @@ class RedisMonster:
         Parameters
         ----------
         key : str
-            チーム名+モンスター名
+            モンスター識別キー
 
         Returns
         ----------
@@ -95,6 +102,10 @@ class RedisTeams:
         """
         チーム取得処理
             全チームを取得する
+
+        Returns
+        ----------
+        チーム集合 : set
         """
         redis = DbAccess.get_connection_to_redis()
         return redis.smembers('teams')

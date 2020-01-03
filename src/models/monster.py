@@ -8,21 +8,19 @@ class Monster:
 
     Attributes
     ----------
-    __key          : str
-        キー（チーム名+名前）
-    __name         : str
+    name         : str
         名前
-    __team         : str
+    team         : str
         チーム名
-    __hp           : int
+    hp           : int
         モンスターのHP
-    __power        : int
+    power        : int
         モンスターの攻撃力
-    __defence      : int
+    defence      : int
         モンスターの防御力
-    __attribute_cd : int
+    attribute_cd : int
         属性コード
-    __atribute     : str
+    atribute     : str
         属性（属性コードを元に変換）
     """
 

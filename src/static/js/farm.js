@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    // モンスター生成&仮登録
     $('#summon_button').modaal({
         before_open: function() {
             $.ajax({
@@ -18,6 +19,7 @@ $(document).ready(function() {
         hide_close: true
     });
 
+    // 本登録orキャンセル
     $('#status').on('click', '.register', function(){
         let register_flg = $(this).val();
         let id = $('#id').val();

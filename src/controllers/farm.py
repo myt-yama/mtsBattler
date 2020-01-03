@@ -14,7 +14,7 @@ confirm_buttons = {
 @app.route('/summon')
 def index():
     """
-    モンスター生成
+    モンスター生成画面表示
 
     Returns
     ----------
@@ -25,6 +25,14 @@ def index():
 
 @app.route('/summon', 'POST')
 def summon_post():
+    """
+    モンスター登録確認画面表示
+        モンスターの仮登録も行う
+
+    Returns
+    ----------
+    templateオブジェクト
+    """
     monster_params = {
         'name' : request.forms.getunicode('name'),
         'team' : request.forms.getunicode('team'),
@@ -41,6 +49,10 @@ def summon_post():
 
 @app.route('/register', 'POST')
 def register():
+    """
+    モンスター登録処理
+        本登録 or キャンセル（仮登録データ削除）
+    """
     id = request.forms.getunicode('id')
     register_flg = request.forms.getunicode('register_flg')
     if register_flg == confirm_buttons['register']:
