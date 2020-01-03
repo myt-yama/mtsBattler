@@ -1,0 +1,33 @@
+<!-- TODO:レイアウト調整  -->
+<div class="monster nes-container is-dark">
+    <input type="hidden" id="id" value="{{ params.monster.team }}-{{ params.monster.name }}">
+    <div class="picture-block">
+        <img src="/static/blue_monster.png" alt="battler1" id="character1" width="100%">
+    </div>
+    <div class="status-block">
+        <div>
+            <div class="status-name">名前:</div>
+            <div class="status-param">{{ params.monster.name }}</div>
+        </div>
+        <div>
+            <div class="status-name">HP:</div>
+            <div class="status-param">{{ params.monster.hp }}</div>
+        </div>
+        <div>
+            <div class="status-name">攻撃力:</div>
+            <div class="status-param">{{ params.monster.power }}</div>
+        </div>
+        <div>
+            <div class="status-name">防御力:</div>
+            <div class="status-param">{{ params.monster.defence }}</div>
+        </div>
+        <div>
+            <div class="status-name">属性:</div>
+            <div class="status-param">{{ params.monster.attribute }}</div>
+        </div>
+    </div>
+    <div class="button-block">
+        <button type="button" class="nes-btn is-success button register" value={{ params.confirm_buttons.register }}>登録する</button>
+        <button type="button" class="nes-btn is-success button register" value={{ params.confirm_buttons.cancel }}>キャンセル</button>
+    </div>
+</div>

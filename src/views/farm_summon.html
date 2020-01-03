@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>sample_index</title>
+{% endblock %}
+{% block static %}
+    <link rel="stylesheet" type="text/css" href="/static/css/farm.css">
+    <link href="https://unpkg.com/nes.css@2.2.0/css/nes.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="/static/js/farm.js"></script>
+{% endblock %}
+{% block body %}
+    <div class=summon>
+        <h1>Summon Battler!!!</h1>
+        <div class="nes-container is-dark with-title">
+            <p class="title">チーム名と名前を入力してください</p>
+            <div>
+                <div class="input-title">チーム名</div>
+                <select id="team" name="team">
+                {% for team in teams %}
+                    <option value={{ team }}>{{ team }}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div>
+                <div class="input-title">名前</div>
+                <input type="text" name="name" size="40" id="name" class="nes-textarea">
+            </div>
+            <div class="summon-btn-block">
+                <button type="button" class="nes-btn is-success" id="summon_button">生成する</button>
+            </div>
+        </div>
+    </div>
+    <div id="modal" class="test" style="display:none;">
+        <div id="status"></div>
+    </div>
+{% endblock %}
