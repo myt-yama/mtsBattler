@@ -109,3 +109,44 @@ class RedisTeams:
         """
         redis = DbAccess.get_connection_to_redis()
         return redis.smembers('teams')
+
+class RedisBattle:
+    """
+    戦闘のRedisアクセスクラス
+    """
+    def register(self, battle_id, battle_status):
+        """
+        戦闘状況登録処理
+        """
+        redis = DbAccess.get_connection_to_redis()
+        pipe = redis.pipeline()
+
+        pipe.hset(battle_id, 'P1_team', battle_status['P1_team'])
+        pipe.hset(battle_id, 'P1_name', battle_status['P1_name'])
+        pipe.hset(battle_id, 'P1_hp', battle_status['P1_hp'])
+        pipe.hset(battle_id, 'P1_attribute_cd', battle_status['P1_attribute_cd'])
+        pipe.hset(battle_id, 'P1_attribute', battle_status['P1_attribute'])
+        pipe.hset(battle_id, 'P1_charge', battle_status['P1_charge'])
+        pipe.hset(battle_id, 'P2_team', battle_status['P2_team'])
+        pipe.hset(battle_id, 'P2_name', battle_status['P2_name'])
+        pipe.hset(battle_id, 'P2_hp', battle_status['P2_hp'])
+        pipe.hset(battle_id, 'P2_attribute_cd', battle_status['P2_attribute_cd'])
+        pipe.hset(battle_id, 'P2_attribute', battle_status['P2_attribute'])
+        pipe.hset(battle_id, 'P2_charge', battle_status['P2_charge'])
+        pipe.execute()
+
+    def select(self, key):
+        """
+        戦闘状況取得処理
+
+        Parameters
+        ----------
+        key : int
+
+        Returns
+        ----------
+        List
+        """
+        redis = DbAccess.get_connection_to_redis()
+        battle_status = redis.hgetall(key)
+        return battle_status
