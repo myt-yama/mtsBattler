@@ -1,5 +1,6 @@
 from controllers.controller import *
 from models.battle import Battle
+from models.monster import Monster
 from models import redismodel
 
 app: Bottle = Bottle()
@@ -9,22 +10,13 @@ def index():
     """
     戦闘画面
     """
-    battle_status = {}
-    battle_status['P1_team'] = 'team-A'
-    battle_status['P1_name'] = 'Jiro'
-    battle_status['P1_hp'] = 10
-    battle_status['P1_attribute_cd'] = '0,2'
-    battle_status['P1_attribute'] = '水草'
-    battle_status['P1_charge'] = 0
-    battle_status['P2_team'] = 'team-B'
-    battle_status['P2_name'] = 'Taro'
-    battle_status['P2_hp'] = 10
-    battle_status['P2_attribute_cd'] = '1'
-    battle_status['P2_attribute'] = '火'
-    battle_status['P2_charge'] = 0
+    monsters = [
+        Monster({'name': 'Jiro', 'team': 'team-A'}, True),
+        Monster({'name': 'Taro', 'team': 'team-B'}, True),
+    ]
 
     battle = Battle()
-    battle.set_battle(battle_status)
+    battle.set_monsters(monsters)
     battle.register()
 
     return template('fight_index', battle=battle)
@@ -36,13 +28,16 @@ def battle():
     """
 
     battle_id = request.forms.getunicode('battle_id')
-    battle_commands = request.forms.getunicode('battle_commands')
+    battle_commands = {
+        'P1' : request.forms.get('battle_command_P1'),
+        'P2' : request.forms.get('battle_command_P2'),
+    }
 
     battle = Battle(battle_id, battle_commands)
     battle.select()
 
     # TODO: バトルロジック作成
     battle.fight()
-    battle.P1_hp = 20
+    logging.info(battle.commands)
 
     return template('fight_index', battle=battle)

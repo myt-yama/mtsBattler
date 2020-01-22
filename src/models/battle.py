@@ -11,91 +11,82 @@ class Battle:
         バトルID
     commands        : str => P1_コマンド,P2_コマンド
         コマンド
-    P1_team         : str
-        P1_チーム名
-    P1_name         : str
-        P1_名前
-    P1_hp           : int
-        P1_HP
-    P1_attribute_cd : str
-        P1_属性
-    P1_attribute    : str
-        P1_属性
-    P1_charge       : int
-        P1_チャージ数
-    P2_team         : str
-        P2_チーム名
-    P2_name         : str
-        P2_名前
-    P2_hp           : int
-        P2_HP
-    P2_attribute_cd : str
-        P2_属性
-    P2_attribute    : str
-        P2_属性
-    P2_charge       : int
-        P2_チャージ数
+    monster_number  : int
+        参加モンスター数
+    Px_team         : str
+        Px_チーム名
+    Px_name         : str
+        Px_名前
+    Px_hp           : int
+        Px_HP
+    Px_attribute_cd : str
+        Px_属性
+    Px_attribute    : str
+        Px_属性
+    Px_charge       : int
+        Px_チャージ数
     """
+    battle_parameters_in_db = [
+        'team',
+        'name',
+        'hp',
+        'attribute_cd',
+        'attribute',
+        'charge',
+    ]
 
     def __init__(self, battle_id = None, commands = None):
         """
         初期化メソッド
         """
         self.battle_id = battle_id
-        self.commands = commands.split(',') if commands is not None else None
+        self.commands = commands
 
     def select(self):
         """
         バトル状況取得メソッド
         """
         battle_status = redismodel.RedisBattle().select(self.battle_id)
-        self.P1_team = battle_status['P1_team']
-        self.P1_name = battle_status['P1_name']
-        self.P1_hp = battle_status['P1_hp']
-        self.P1_attribute_cd = battle_status['P1_attribute_cd']
-        self.P1_attribute = battle_status['P1_attribute']
-        self.P1_charge = battle_status['P1_charge']
-        self.P2_team = battle_status['P2_team']
-        self.P2_name = battle_status['P2_name']
-        self.P2_hp = battle_status['P2_hp']
-        self.P2_attribute_cd = battle_status['P2_attribute_cd']
-        self.P2_attribute = battle_status['P2_attribute']
-        self.P2_charge = battle_status['P2_charge']
+        self.monster_number = int(battle_status['monster_number'])
+        for i in range(self.monster_number):
+            # propetyに使用する番号, iは0始まりのため1足す
+            player_number = i+1
+            for parameter in Battle.battle_parameters_in_db:
+                battle_parameter = self.get_parameter(player_number, parameter)
+                setattr(self, battle_parameter, battle_status[battle_parameter])
 
     def register(self):
         """
         バトル状況登録メソッド
         """
-        battle_status = {}
-        battle_status['P1_team'] = self.P1_team
-        battle_status['P1_name'] = self.P1_name
-        battle_status['P1_hp'] = self.P1_hp
-        battle_status['P1_attribute_cd'] = self.P1_attribute_cd
-        battle_status['P1_attribute'] = self.P1_attribute
-        battle_status['P1_charge'] = self.P1_charge
-        battle_status['P2_team'] = self.P2_team
-        battle_status['P2_name'] = self.P2_name
-        battle_status['P2_hp'] = self.P2_hp
-        battle_status['P2_attribute_cd'] = self.P2_attribute_cd
-        battle_status['P2_attribute'] = self.P2_attribute
-        battle_status['P2_charge'] = self.P2_charge
+        battle_status = {
+            'monster_number' : self.monster_number,
+        }
+        for i in range(self.monster_number):
+            player_number = i+1
+            for parameter in Battle.battle_parameters_in_db:
+                battle_parameter = self.get_parameter(player_number, parameter)
+                battle_status[battle_parameter] = getattr(self, battle_parameter)
         redismodel.RedisBattle().register(self.battle_id, battle_status)
 
-    def set_battle(self, battle_status):
-        self.P1_team = battle_status['P1_team']
-        self.P1_name = battle_status['P1_name']
-        self.P1_hp = battle_status['P1_hp']
-        self.P1_attribute_cd = battle_status['P1_attribute_cd']
-        self.P1_attribute = battle_status['P1_attribute']
-        self.P1_charge = battle_status['P1_charge']
-        self.P2_team = battle_status['P2_team']
-        self.P2_name = battle_status['P2_name']
-        self.P2_hp = battle_status['P2_hp']
-        self.P2_attribute_cd = battle_status['P2_attribute_cd']
-        self.P2_attribute = battle_status['P2_attribute']
-        self.P2_charge = battle_status['P2_charge']
+    def set_monsters(self, monsters):
+        self.monster_number = len(monsters)
+        for i in range(self.monster_number):
+            # propetyに使用する番号, iは0始まりのため1足す
+            player_number = i+1
+            monster = monsters[i]
+            for parameter in Battle.battle_parameters_in_db:
+                battle_parameter = self.get_parameter(player_number, parameter)
+                if parameter != 'charge':
+                    setattr(self, battle_parameter, getattr(monster, parameter))
+                else:
+                    # Monsterクラスにないパラメータ, 初期値を設定する
+                    setattr(self, battle_parameter, 0)
         # TODO: 自動採番されるように変更
         self.battle_id = 1000
+
+    def get_parameter(self, player_number, parameter):
+        return 'P'+str(player_number)+'_'+parameter
 
     def fight(self):
         pass

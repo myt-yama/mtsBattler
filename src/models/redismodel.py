@@ -1,5 +1,6 @@
 from models.model import *
 from models.monster import Monster
+from models.battle import Battle
 from utils.dbaccess import DbAccess
 
 class RedisMonster:
@@ -121,18 +122,12 @@ class RedisBattle:
         redis = DbAccess.get_connection_to_redis()
         pipe = redis.pipeline()
 
-        pipe.hset(battle_id, 'P1_team', battle_status['P1_team'])
-        pipe.hset(battle_id, 'P1_name', battle_status['P1_name'])
-        pipe.hset(battle_id, 'P1_hp', battle_status['P1_hp'])
-        pipe.hset(battle_id, 'P1_attribute_cd', battle_status['P1_attribute_cd'])
-        pipe.hset(battle_id, 'P1_attribute', battle_status['P1_attribute'])
-        pipe.hset(battle_id, 'P1_charge', battle_status['P1_charge'])
-        pipe.hset(battle_id, 'P2_team', battle_status['P2_team'])
-        pipe.hset(battle_id, 'P2_name', battle_status['P2_name'])
-        pipe.hset(battle_id, 'P2_hp', battle_status['P2_hp'])
-        pipe.hset(battle_id, 'P2_attribute_cd', battle_status['P2_attribute_cd'])
-        pipe.hset(battle_id, 'P2_attribute', battle_status['P2_attribute'])
-        pipe.hset(battle_id, 'P2_charge', battle_status['P2_charge'])
+        pipe.hset(battle_id, 'monster_number', battle_status['monster_number'])
+        for i in range(battle_status['monster_number']):
+            player_number = i+1
+            for parameter in Battle.battle_parameters_in_db:
+                battle_parameter = self.get_parameter(player_number, parameter)
+                pipe.hset(battle_id, battle_parameter, battle_status[battle_parameter])
         pipe.execute()
 
     def select(self, key):
@@ -150,3 +145,6 @@ class RedisBattle:
         redis = DbAccess.get_connection_to_redis()
         battle_status = redis.hgetall(key)
         return battle_status
+
+    def get_parameter(self, player_number, parameter):
+        return 'P'+str(player_number)+'_'+parameter
