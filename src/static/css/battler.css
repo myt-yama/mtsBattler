@@ -26,14 +26,13 @@
     color: red;
 }
 .menu label {
-  font-family: "battle";
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-  ;
+    font-family: "battle";
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
 }
 #menu_choice {
     display: none;
