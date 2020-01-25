@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>mtsBattler</title>
+{% endblock %}
+{% block static %}
+    <link rel="stylesheet" type="text/css" href="/static/css/battler.css">
+    <link href="https://unpkg.com/nes.css@2.2.0/css/nes.min.css" rel="stylesheet" />
+    <meta http-equiv="Content-Script-Type" content="text/javascript">
+    <script type="text/javascript" src="/static/js/battler.js"></script>
+{% endblock %}
+{% block body %}
+<div class="battler">
+    <div class="wrapper">
+        <h1>
+            <ruby>
+                <rb>
+                    <h1>mythos<br>&nbsp;&nbsp;&nbsp;&nbsp;Battler</h1>
+                </rb>
+                <rp>（</rp>
+                <rt>ミュートスバトラー</rt>
+                <rp>）</rp>
+            </ruby>
+        </h1>
+        <p>The Corporate Warrior</p>
+        <p class="copy_right">©︎yamauchi sumikawa 1991 and SS2</p>
+    </div>
+    <div class="menu">
+        <div id="press-any-button" style="background-color:#212529; padding: 1rem 0;">
+            <label>
+                <input type="radio" class="nes-radio is-dark" name="answer-dark" autofocus checked/>
+                <span>PRESS ANY BUTTON</span>
+            </label>
+        </div>
+        <div id="menu_choice" style="background-color:#212529; padding: 1rem 0;">
+            <label id="move-farm">
+                <a href="./battler/farm">
+                    <input type="radio" class="nes-radio is-dark" name="answer-dark" />
+                    <span>バトラーの管理をする</span>
+                </a>
+            </label>
+
+            <label>
+                <a href="./battler/battle">
+                    <input type="radio" class="nes-radio is-dark" name="answer-dark" />
+                    <span>バトルをする</span>
+                </a>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- 遅延を防ぐため、preload="auto"によって予め音源ファイルを読み込んでおく -->
+<iframe src="/static/sound/top_bgm.mp3" type="audio/mp3" allow="autoplay" style="display:none" id="iframeAudio">
+</iframe><iframe src="https://raw.githubusercontent.com/anars/blank-audio/master/500-milliseconds-of-silence.mp3" allow="autoplay" id="audio" style="display:none"></iframe>
+<audio id="bgm" autoplay loop>
+    <source src="/static/sound/top_bgm.mp3" type="audio/mp3">
+</audio>
+<audio id="decide" preload="auto">
+    <source src="/static/sound/choice.mp3" type="audio/mp3">
+</audio>
+<audio id="move" preload="auto">
+    <source src="/static/sound/move.mp3" type="audio/mp3">
+</audio>
+{% endblock %}
