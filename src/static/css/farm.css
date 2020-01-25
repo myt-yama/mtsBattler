@@ -53,4 +53,50 @@ body {
 .modaal-container {
   background-color: inherit; }
 
+.status-name {
+  display: inline-block;
+  width: 20%; }
+
+.status-param {
+  display: inline-block; }
+
+.name {
+  font-size: 2em; }
+
+.horizon {
+  border-top: 1px solid white;
+  margin: auto; }
+
+.manage-box {
+  display: grid;
+  grid-template-columns: 60% 40%; }
+
+.image-box {
+  display: grid;
+  grid-template-rows: 20% 80%;
+  grid-row: 1 / 2; }
+
+.monster-box {
+  grid-row: 1 / 2; }
+
+.image-name {
+  grid-column: 1 / 2; }
+
+.image {
+  grid-column: 1 / 2;
+  text-align: center; }
+
+.manage-monster {
+  font-family: "battle";
+  width: 70vw;
+  margin: 0 auto; }
+  .manage-monster input {
+    height: 30px;
+    width: 400px; }
+  .manage-monster .input-title {
+    display: inline-block;
+    width: 15%; }
+  .manage-monster .summon-btn-block {
+    text-align: right; }
+
 /*# sourceMappingURL=farm.css.map */

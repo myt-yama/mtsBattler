@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>sample_index</title>
+{% endblock %}
+{% block static %}
+    <link rel="stylesheet" type="text/css" href="/static/css/farm.css">
+    <link href="https://unpkg.com/nes.css@2.2.0/css/nes.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="/static/js/farm.js"></script>
+{% endblock %}
+{% block body %}
+    <div class=manage-monster>
+        <h1>モンスターかんり</h1>
+            <div class="manage-box">
+                <div class="nes-container is-dark image-box">
+                    <div class="name image-name">Jiro
+                        <hr class="horizon">
+                    </div>
+                    <div class="image">
+                        <img src="/static/blue_monster.png" alt="battler1" id="character1" width="70%">
+                    </div>
+                </div>
+                <div class="monster-box">
+                    {% for monster in monsters %}
+                    <div class="nes-container is-dark with-title status-box">
+                        {# <p class="title">{{ monster.name }}</p> #}
+                        {# 名前はちょっと大きめ #}
+                        <div>
+                            {# <div class="status-name">名前:</div> #}
+                            <div class="status-param name">{{ monster.name }}</div>
+                        </div>
+                        <hr class="horizon">
+                        {# 名前以外は通常サイズで少し内側に寄せる #}
+                        <div>
+                            <div class="status-name">HP:</div>
+                            <div class="status-param">{{ monster.hp }}</div>
+                        </div>
+                        <div>
+                            <div class="status-name">攻撃力:</div>
+                            <div class="status-param">{{ monster.power }}</div>
+                        </div>
+                        <div>
+                            <div class="status-name">防御力:</div>
+                            <div class="status-param">{{ monster.defence }}</div>
+                        </div>
+                        <div>
+                            <div class="status-name">属性:</div>
+                            <div class="status-param">{{ monster.attribute }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+    </div>
+{% endblock %}

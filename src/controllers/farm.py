@@ -11,8 +11,17 @@ confirm_buttons = {
 }
 
 @app.route('/')
-@app.route('/summon')
 def index():
+    """
+    モンスター管理画面表示
+    """
+
+    team = 'team-A'
+    monsters = redismodel.RedisMonster().select_all(team)
+    return template('farm_index', monsters=monsters)
+
+@app.route('/summon')
+def summon():
     """
     モンスター生成画面表示
 
