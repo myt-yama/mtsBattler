@@ -1,4 +1,5 @@
 from bottle import route, run, static_file, Bottle
+from bottle import jinja2_template as template
 from controllers import sample, summon, redis_test, farm
 
 main: Bottle = Bottle()
@@ -9,7 +10,7 @@ def static(filePath):
 
 @main.route('/battler')
 def battler():
-    return 'battler success!!'
+    return template('battler')
 
 
 # 以下、URLに対応する別々のモジュールを呼ぶ
