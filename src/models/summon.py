@@ -56,7 +56,6 @@ class Summon:
             [0.3,0.3,0.4],
         ]
         table = patterns[select[int(str(value)[round(len(str(value))/2)])]]
-        logging.info(table)
 
         percentages = []
         if value%6 == 0:

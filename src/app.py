@@ -1,6 +1,6 @@
 from bottle import route, run, static_file, Bottle
 from bottle import jinja2_template as template
-from controllers import sample, summon, redis_test, farm
+from controllers import sample, summon, redis_test, farm, fight
 
 main: Bottle = Bottle()
 
@@ -18,6 +18,7 @@ main.mount('/battler/sample', sample.app)
 main.mount('/battler/summon', summon.app)
 main.mount('/battler/redis', redis_test.app)
 main.mount('/battler/farm', farm.app)
+main.mount('/battler/fight', fight.app)
 
 
 if __name__ == '__main__':
