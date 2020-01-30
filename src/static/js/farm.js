@@ -33,4 +33,23 @@ $(document).ready(function() {
         })
         $('#summon_button').modaal('close');
     });
+    $('#select-box').on('click', '.delete-button', function(){
+        let key = $(this).data('key');
+        let team = $(this).data('team');
+        $.ajax({
+            type: 'POST',
+            url: 'delete',
+            data: {
+                key: key,
+                team: team
+            },
+        })
+        .done(function(response) {
+            console.log('info');
+            $('#select-box').html(response);
+        })
+        .fail(function(){
+            console.log('fail');
+        })
+    });
 })

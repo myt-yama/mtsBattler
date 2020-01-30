@@ -47,6 +47,24 @@ class RedisMonster:
         redis = DbAccess.get_connection_to_redis()
         redis.delete(key)
 
+    def delete_all(self, key, team):
+        """
+        モンスター情報を全て削除する
+            モンスターデータとチーム所属データ
+
+        Parameters
+        ----------
+        key : str
+            モンスター識別キー
+        team : str
+            チーム名
+        """
+        redis = DbAccess.get_connection_to_redis()
+        pipe = redis.pipeline()
+        pipe.delete(key)
+        pipe.srem(team+'-monster', key)
+        pipe.execute()
+
     def select(self, key):
         """
         モンスター取得処理
