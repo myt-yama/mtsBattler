@@ -11,17 +11,22 @@
     <div class=manage-monster>
         <h1>モンスターかんり</h1>
             <div class="manage-box">
-                <div class="nes-container is-dark image-box">
-                    <div class="name image-name">Jiro
-                        <hr class="horizon">
+                {% if monsters != None %}
+                    <div class="nes-container is-dark image-box">
+                        <div class="name image-name">
+                            <span id="selected-monster">{{ monsters[0].name }}</span>
+                            <hr class="horizon">
+                        </div>
+                        <div class="image">
+                            <img src="/static/blue_monster.png" alt="battler1" id="character1" width="70%">
+                        </div>
                     </div>
-                    <div class="image">
-                        <img src="/static/blue_monster.png" alt="battler1" id="character1" width="70%">
+                    <div id="select-box">
+                    {% include "select_monster.html" %}
                     </div>
-                </div>
-                <div id="select-box">
-                {% include "select_monster.html" %}
-                </div>
+                {% else %}
+                    モンスターがいません
+                {% endif %}
             </div>
     </div>
 {% endblock %}

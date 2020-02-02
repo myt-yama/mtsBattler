@@ -33,6 +33,7 @@ class RedisMonster:
         pipe.hset(monster_key, 'power', monster.get_power())
         pipe.hset(monster_key, 'defence', monster.get_defence())
         pipe.hset(monster_key, 'attribute_cd', monster.get_attribute_cd())
+        pipe.hset(monster_key, 'image_path', monster.image_path)
         pipe.execute()
 
     def delete(self, key):
@@ -100,7 +101,7 @@ class RedisMonster:
         for monster in pipe.execute():
             monster['team'] = team
             monsters.append(Monster(monster))
-        return monsters
+        return monsters if not monsters == [] else None
 
 class RedisTeams:
     """

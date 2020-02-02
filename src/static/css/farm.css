@@ -72,11 +72,14 @@ body {
   grid-template-columns: 60% 40%; }
 
 .image-box {
+  height: 615px;
   display: grid;
   grid-template-rows: 20% 80%;
   grid-row: 1 / 2; }
 
 .monster-box {
+  height: 615px;
+  overflow: auto;
   grid-row: 1 / 2; }
 
 .status-box {

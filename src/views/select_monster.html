@@ -1,6 +1,6 @@
 <div class="monster-box">
     {% for monster in monsters %}
-    <div class="nes-container is-dark with-title status-box">
+    <div class="nes-container is-dark with-title status-box" data-image_path={{ monster.image_path }} data-name={{ monster.name }}>
         {# <p class="title">{{ monster.name }}</p> #}
         {# 名前はちょっと大きめ #}
         <div class="name-box">

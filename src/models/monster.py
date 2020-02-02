@@ -54,37 +54,8 @@ class Monster:
             self.set_power(parameters['power'])
             self.set_defence(parameters['defence'])
             self.set_attribute_cd(parameters['attribute_cd'])
+            self.image_path = parameters['image_path']
         self.set_attribute(''.join(list(map(lambda x: self.convert_from_attribute_cd(int(x)), self.get_attribute_cd().split(',')))))
-
-    def atack(self, target):
-        """
-        対象モンスターへの攻撃メソッド
-        　対象モンスターのオブジェクトに攻撃後のHPを設定する
-
-        Parameters
-        ----------
-        target : Monsterオブジェクト
-            攻撃対象
-        """
-        rel_hp = self.calculate_hp_after_attack(target)
-        target.set_hp(rel_hp)
-
-    def calculate_hp_after_attack(self, target):
-        """
-        対象の攻撃後のHPを計算する
-
-        Parameters
-        ----------
-        target : Monsterオブジェクト
-            攻撃対象
-
-        Returns
-        ----------
-        attacked_hp : int
-            攻撃を受けた後の対象のHP
-        """
-        attacked_hp = target.get_hp() - self.get_power()
-        return attacked_hp
 
     def set_team(self, team):
         self.team = team

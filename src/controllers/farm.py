@@ -18,6 +18,7 @@ def index():
 
     team = 'team-A'
     monsters = redismodel.RedisMonster().select_all(team)
+    logging.info(monsters)
     return template('farm_index', monsters=monsters)
 
 @app.route('/summon')
