@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>vs</title>
+{% endblock %}
+{% block static %}
+    <link rel="stylesheet" type="text/css" href="/static/css/vs.css">
+    <link href="https://unpkg.com/nes.css@2.2.0/css/nes.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="/static/js/vs.js"></script>
+{% endblock %}
+{% block body %}
+<div class="wrapper">
+    <h1>バトルで使用するキャラクターを選んでください</h1>
+    <div class="vs">
+        <a href="./battle/choice">
+            <div class="nes-container is-dark with-title first-character">
+                <p class="title">PLAYER 1</p>
+                <p>CHOOSE BATTLER</p>
+            </div>
+        </a>
+
+        <div class="vs-logo">
+            <span>VS</span>
+        </div>
+
+        <a href="./battle/choice">
+            <div class="nes-container is-dark with-title second-character">
+                <p class="title">PLAYER 2</p>
+                <p>CHOOSE BATTLER</p>
+            </div>
+        </a>
+    </div>
+
+    <a href="./battle/fight">
+        <div class="button-area">
+            <button type="button" class="nes-btn is-error">GO BATTLE</button>
+        </div>
+    </a>
+
+</div>
+<!--- BGM読み込み -->
+<iframe src="/static/sound/vs_bgm.mp3" type="audio/mp3" allow="autoplay" style="display:none" id="iframeAudio">
+</iframe>
+<audio id="bgm" autoplay loop>
+    <source src="/static/sound/vs_bgm.mp3" type="audio/mp3">
+</audio>
+{% endblock %}u

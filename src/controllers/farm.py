@@ -11,8 +11,18 @@ confirm_buttons = {
 }
 
 @app.route('/')
-@app.route('/summon')
 def index():
+    """
+    モンスター管理画面表示
+    """
+
+    team = 'team-A'
+    monsters = redismodel.RedisMonster().select_all(team)
+    logging.info(monsters)
+    return template('farm_index', monsters=monsters)
+
+@app.route('/summon')
+def summon():
     """
     モンスター生成画面表示
 
@@ -63,3 +73,15 @@ def register():
     else:
         # キャンセル
         redismodel.RedisMonster().delete('tmp-'+id)
+
+@app.route('/delete', 'POST')
+def delete():
+    """
+    モンスター削除処理
+    """
+    key = request.forms.getunicode('key')
+    team = request.forms.getunicode('team')
+    redismodel.RedisMonster().delete_all(key, team)
+
+    monsters = redismodel.RedisMonster().select_all(team)
+    return template('select_monster', monsters=monsters)

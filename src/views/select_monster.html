@@ -1,0 +1,35 @@
+<div class="monster-box">
+    {% for monster in monsters %}
+    <div class="nes-container is-dark with-title status-box" data-image_path={{ monster.image_path }} data-name={{ monster.name }}>
+        {# <p class="title">{{ monster.name }}</p> #}
+        {# 名前はちょっと大きめ #}
+        <div class="name-box">
+            {# <div class="status-name">名前:</div> #}
+            <div class="status-param name">{{ monster.name }}</div>
+        <hr class="horizon">
+        </div>
+        {# 名前以外は通常サイズで少し内側に寄せる #}
+        <div class="parameter">
+            <div>
+                <div class="status-name">HP:</div>
+                <div class="status-param">{{ monster.hp }}</div>
+            </div>
+            <div>
+                <div class="status-name">攻撃力:</div>
+                <div class="status-param">{{ monster.power }}</div>
+            </div>
+            <div>
+                <div class="status-name">防御力:</div>
+                <div class="status-param">{{ monster.defence }}</div>
+            </div>
+            <div>
+                <div class="status-name">属性:</div>
+                <div class="status-param">{{ monster.attribute }}</div>
+            </div>
+        </div>
+        <div class="baibai">
+            <button type="button" class="nes-btn is-warning delete-button" data-key="{{ monster.team }}-{{ monster.name }}" data-team={{ monster.team }}>ばいばい</button>
+        </div>
+    </div>
+    {% endfor %}
+</div>

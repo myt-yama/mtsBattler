@@ -33,4 +33,32 @@ $(document).ready(function() {
         })
         $('#summon_button').modaal('close');
     });
+    $('#select-box').on('click', '.delete-button', function(event){
+        // 親要素のイベントが発火しないようにする
+        event.stopPropagation();
+
+        let key = $(this).data('key');
+        let team = $(this).data('team');
+        $.ajax({
+            type: 'POST',
+            url: 'delete',
+            data: {
+                key: key,
+                team: team
+            },
+        })
+        .done(function(response) {
+            console.log('info');
+            $('#select-box').html(response);
+        })
+        .fail(function(){
+            console.log('fail');
+        })
+    });
+    $('#select-box').on('click', '.status-box', function(){
+        let image_path = $(this).closest('.status-box').data('image_path');
+        let name = $(this).closest('.status-box').data('name');
+        $('#selected-monster').text(name);
+        $('#character1').attr('src', image_path);
+    })
 })

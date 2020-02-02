@@ -64,3 +64,75 @@ body {
 .modaal-container {
     background-color: inherit;
 }
+.status-name {
+    display: inline-block;
+    width: 30%;
+}
+.status-param {
+    display: inline-block;
+}
+.name {
+    font-size: 2em;
+}
+.horizon {
+    border-top: 1px solid rgb(255,255,255);
+    margin: auto;
+}
+.manage-box {
+    display: grid;
+    // grid-template-rows: 100%;
+    grid-template-columns: 60% 40%;
+}
+.image-box {
+    height: 615px;
+    display: grid;
+    grid-template-rows: 20% 80%;
+    grid-row: 1 / 2;
+    // grid-column: 1 / 1;
+}
+.monster-box {
+    height: 615px;
+    overflow: auto;
+    grid-row: 1 / 2;
+    // grid-column: 1 / 1;
+}
+.status-box {
+    display: grid;
+    grid-template-rows: 50% 50%;
+    grid-template-columns: 70% 30%;
+}
+.name-box {
+    grid-row: 1 / 2;
+    grid-column: 1 / 3;
+}
+.parameter {
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+}
+.baibai {
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
+}
+.image-name {
+    grid-column: 1 / 2;
+}
+.image {
+    grid-column: 1 / 2;
+    text-align: center;
+}
+.manage-monster {
+    font-family: "battle";
+    width: 70vw;
+    margin: 0 auto;
+    input {
+        height: 30px;
+        width: 400px;
+    }
+    .input-title {
+        display: inline-block;
+        width: 15%;
+    }
+    .summon-btn-block {
+        text-align: right;
+    }
+}

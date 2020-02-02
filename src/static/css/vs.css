@@ -1,0 +1,58 @@
+@font-face {
+    font-family: "battle";
+    src: url("/static/NuAnkoMochi-BarHrE-1.otf");
+}
+.wrapper {
+    height: 100vh;
+    background-color: #212529;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.wrapper .vs a {
+    text-decoration: none;
+}
+.wrapper h1 {
+    font-family: "battle";
+    color: white;
+    margin-bottom: 40px;
+}
+.first-character, .second-character {
+    height: 70vh;
+    width: 60vh;
+    text-align: center;
+    padding: 0;
+}
+/* nes-cssのせいでボックスの中のテキストが中央よりにならないのでキャンセル */
+.nes-container.is-dark.with-title {
+    padding: 0;
+}
+/* nes-cssのせいでボックスの中のテキストが中央よりにならないのでキャンセル */
+p {
+    padding-bottom: 0;
+}
+.first-character p:nth-child(2), .second-character p:nth-child(2) {
+    color: red;
+    height: 70vh;
+    width: 60vh;
+    font-size: 30px;
+    display: table-cell;
+    vertical-align: middle;
+}
+.vs {
+    font-family: "battle";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.vs-logo {
+    color: white;
+    font-size: 80px;
+    margin: 0 15px;
+}
+.button-area {
+    margin-top: 20px;
+    font-family: "battle";
+}

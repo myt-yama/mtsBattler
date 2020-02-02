@@ -36,6 +36,7 @@ class Summon:
         percentages = self.decide_percentage(base_value)
         kanji = self._select_kanji(name)
 
+        self.assign_image(base_value)
         self.assign_points_to_status(status_points, percentages)
         self.generate_attribute(kanji)
 
@@ -108,6 +109,12 @@ class Summon:
         # TODO: ロジック作る
         bushu_codes = self._select_bushu_codes(kanji)
         self.monster.set_attribute_cd(self._judge_attribute(bushu_codes))
+
+    def assign_image(self, value):
+        if value % 2 == 0:
+            self.monster.image_path = '/static/blue_monster.png'
+        else:
+            self.monster.image_path = '/static/green_monster.png'
 
     def _select_kanji(self, value):
         """

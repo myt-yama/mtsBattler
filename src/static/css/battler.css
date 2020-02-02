@@ -1,0 +1,42 @@
+@font-face {
+  font-family: "battle";
+  src: url("/static/NuAnkoMochi-BarHrE-1.otf"); }
+.battler {
+    height: 100vh;
+    background-color: #212529;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+.wrapper {
+    font-family: "battle";
+    text-align: center;
+}
+.wrapper h1 {
+    font-size: 100px;
+    color: orangered;
+}
+.wrapper p {
+    font-size: 40px;
+    color: #00B4DB;
+}
+.wrapper .copy_right {
+    font-size: 20px;
+    color: red;
+}
+.menu label {
+    font-family: "battle";
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+#menu_choice {
+    display: none;
+}
+#menu_choice a {
+    text-decoration: none;
+}
