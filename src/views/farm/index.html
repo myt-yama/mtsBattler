@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>sample_index</title>
+{% endblock %}
+{% block static %}
+    <link rel="stylesheet" type="text/css" href="/static/css/farm.css">
+    <link href="https://unpkg.com/nes.css@2.2.0/css/nes.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="/static/js/farm.js"></script>
+{% endblock %}
+{% block body %}
+    <div class=manage-monster>
+        <div class="header">
+            <h1>モンスターかんり</h1>
+            <h3><a href="farm/summon">なかまをさがす</a></h3>
+        </div>
+        <div class="manage-box">
+            {% include "monster_list.html" %}
+        </div>
+    </div>
+{% endblock %}

@@ -44,7 +44,6 @@ body {
   .monster .button-block {
     grid-row: 2 / 3;
     grid-column: 2 / 3;
-    display: flex;
     justify-content: center;
     align-items: center; }
     .monster .button-block .button {
@@ -118,5 +117,15 @@ body {
     width: 15%; }
   .manage-monster .summon-btn-block {
     text-align: right; }
+
+.header {
+  display: flex;
+  justify-content: space-between; }
+
+.divide {
+  background-color: white; }
+
+span.register {
+  text-decoration: underline; }
 
 /*# sourceMappingURL=farm.css.map */

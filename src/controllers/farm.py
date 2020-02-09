@@ -3,6 +3,7 @@ from models.monster import Monster
 from models import redismodel
 
 app: Bottle = Bottle()
+viewdir = os.path.splitext(os.path.basename(__file__))[0]+'/'
 
 # 
 confirm_buttons = {
@@ -19,7 +20,7 @@ def index():
     team = 'team-A'
     monsters = redismodel.RedisMonster().select_all(team)
     logging.info(monsters)
-    return template('farm_index', monsters=monsters)
+    return template(viewdir+'index', monsters=monsters, button_message='ばいばい')
 
 @app.route('/summon')
 def summon():
@@ -31,7 +32,7 @@ def summon():
     templateオブジェクト
     """
     teams = redismodel.RedisTeams().select()
-    return template('farm_summon', teams=teams)
+    return template(viewdir+'summon', teams=teams)
 
 @app.route('/summon', 'POST')
 def summon_post():
@@ -84,4 +85,4 @@ def delete():
     redismodel.RedisMonster().delete_all(key, team)
 
     monsters = redismodel.RedisMonster().select_all(team)
-    return template('select_monster', monsters=monsters)
+    return template(viewdir+'monster', monsters=monsters)

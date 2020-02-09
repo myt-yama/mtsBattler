@@ -1,0 +1,38 @@
+{% if monsters != None %}
+    <div class="nes-container is-dark image-box">
+        <div class="name image-name">
+            <span id="selected-monster">{{ monsters[0].name }}</span>
+            <hr class="horizon">
+        </div>
+        <div class="image">
+            <img src="{{ monsters[0].image_path }}" alt="battler1" id="character1" width="70%">
+        </div>
+    </div>
+    <div id="select-box">
+        <div class="monster-box">
+            {% for monster in monsters %}
+            <div class="nes-container is-dark with-title status-box" data-image_path={{ monster.image_path }} data-name={{ monster.name }}>
+                <div class="name-box">
+                    <div class="status-param name">{{ monster.name }}</div>
+                <hr class="horizon">
+                </div>
+                <div class="parameter">
+                    <div>
+                        <div class="status-name">HP:</div>
+                        <div class="status-param">{{ monster.hp }}</div>
+                    </div>
+                    <div>
+                        <div class="status-name">属性:</div>
+                        <div class="status-param">{{ monster.attribute }}</div>
+                    </div>
+                </div>
+                <div class="baibai">
+                    <button type="button" class="nes-btn is-warning delete-button" data-key="{{ monster.team }}-{{ monster.name }}" data-team={{ monster.team }}>{{ button_message }}</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% else %}
+    仲間を集めよう!!!
+{% endif %}
