@@ -1,13 +1,4 @@
-@font-face {
-  font-family: "battle";
-  src: url("/static/NuAnkoMochi-BarHrE-1.otf"); }
-body {
-  background-image: url(/static/summon_back.png);
-  background-size: cover;
-  height: 1000px; }
-
 .summon {
-  font-family: "battle";
   width: 40vw;
   margin: 0 auto; }
   .summon input {
@@ -24,7 +15,7 @@ body {
   grid-template-rows: 80% 20%;
   grid-template-columns: 50% 50%; }
   .monster .picture-block {
-    background-image: url(/static/pict.png);
+    background-image: url(/static/img/pict.png);
     background-size: cover;
     background-position: center;
     grid-row: 1 / 3;

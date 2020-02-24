@@ -112,9 +112,9 @@ class Summon:
 
     def assign_image(self, value):
         if value % 2 == 0:
-            self.monster.image_path = '/static/blue_monster.png'
+            self.monster.image_path = '/static/img/blue_monster.png'
         else:
-            self.monster.image_path = '/static/green_monster.png'
+            self.monster.image_path = '/static/img/green_monster.png'
 
     def _select_kanji(self, value):
         """
