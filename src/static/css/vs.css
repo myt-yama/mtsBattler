@@ -56,3 +56,6 @@ p {
     margin-top: 20px;
     font-family: "battle";
 }
+.choose_team {
+    display: none;
+}
