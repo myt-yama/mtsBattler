@@ -3,9 +3,13 @@ from models.monster import Monster
 from models import redismodel
 
 app: Bottle = Bottle()
-viewdir = os.path.splitext(os.path.basename(__file__))[0]+'/'
 
-# 
+
+class FarmController(Controller):
+    def __init__(self):
+        super().__init__(__file__)
+controller = FarmController()
+
 confirm_buttons = {
     'cancel' : '0',
     'register' : '1',
@@ -20,7 +24,7 @@ def index():
     team = 'team-A'
     monsters = redismodel.RedisMonster().select_all(team)
     logging.info(monsters)
-    return template(viewdir+'index', monsters=monsters, button_message='ばいばい')
+    return controller.template('index', monsters=monsters, button_message='ばいばい')
 
 @app.route('/summon')
 def summon():
@@ -32,7 +36,7 @@ def summon():
     templateオブジェクト
     """
     teams = redismodel.RedisTeams().select()
-    return template(viewdir+'summon', teams=teams)
+    return controller.template('summon', teams=teams)
 
 @app.route('/summon', 'POST')
 def summon_post():
@@ -56,7 +60,7 @@ def summon_post():
         'confirm_buttons' : confirm_buttons,
     }
 
-    return template('status',params=params)
+    return controller.template('status',params=params)
 
 @app.route('/register', 'POST')
 def register():
@@ -85,4 +89,4 @@ def delete():
     redismodel.RedisMonster().delete_all(key, team)
 
     monsters = redismodel.RedisMonster().select_all(team)
-    return template(viewdir+'monster', monsters=monsters)
+    return controller.template('monster', monsters=monsters)

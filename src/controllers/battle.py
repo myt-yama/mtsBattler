@@ -5,14 +5,11 @@ from models import redismodel
 app: Bottle = Bottle()
 
 #
+class VsController(Controller):
+    def __init__(self):
+        super().__init__(__file__)
+controller = VsController()
 
 @app.route('/')
 def index():
-    """
-    モンスター生成画面表示
-
-    Returns
-    ----------
-    templateオブジェクト
-    """
-    return template('vs')
+    return controller.template('vs')
