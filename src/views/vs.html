@@ -3,38 +3,82 @@
     <title>vs</title>
 {% endblock %}
 {% block static %}
-    <link rel="stylesheet" type="text/css" href="/static/css/vs.css">
-    <link href="https://unpkg.com/nes.css@2.2.0/css/nes.min.css" rel="stylesheet" />
+<link href="https://unpkg.com/nes.css@2.2.0/css/nes.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="/static/css/vs.css">
     <script type="text/javascript" src="/static/js/vs.js"></script>
 {% endblock %}
 {% block body %}
 <div class="wrapper">
     <h1>バトルで使用するキャラクターを選んでください</h1>
     <div class="vs">
-        <a href="./battle/choice">
-            <div class="nes-container is-dark with-title first-character">
-                <p class="title">PLAYER 1</p>
-                <p>CHOOSE BATTLER</p>
+        <!-- プレイヤー１の選択 -->
+        <div class="nes-container is-dark with-title first-character choose-character">
+            <p class="title">PLAYER 1</p>
+            <!-- <p>CHOOSE BATTLER</p> -->
+            <button class="choose_button">choose</button>
+            <!-- チームの選択 -->
+            <div class="choose_team">
+                <p class="title">チーム名を入力してください</p>
+                <div>
+                    <div class="input-title">チーム名</div>
+                    <select class="team" name="team">
+                    {% for team in teams %}
+                        <option data-team="{{team}}" value={{ team }}>{{ team }}</option>
+                    {% endfor %}
+                    </select>
+                    <button class="modaal">決定</button>
+                </div>
             </div>
-        </a>
-
+            <!-- 選択されたモンスター -->
+            <div style="color: aliceblue;">
+                <div class="chosen_monster">
+                </div>
+            </div>
+        </div>
         <div class="vs-logo">
             <span>VS</span>
         </div>
 
-        <a href="./battle/choice">
-            <div class="nes-container is-dark with-title second-character">
-                <p class="title">PLAYER 2</p>
-                <p>CHOOSE BATTLER</p>
+    <!-- プレイヤー２の選択 -->
+        <div class="nes-container is-dark with-title second-character choose-character">
+            <p class="title">PLAYER 2</p>
+            <button class="choose_button">choose</button>
+            <div class="choose_team">
+                <p class="title">チーム名を入力してください</p>
+                <div>
+                    <div class="input-title">チーム名</div>
+                    <select class="team" name="team">
+                    {% for team in teams %}
+                        <option data-team="{{team}}" value={{ team }}>{{ team }}</option>
+                    {% endfor %}
+                    </select>
+                    <button class="modaal">決定</button>
+                </div>
             </div>
-        </a>
+            <p>CHOOSE BATTLER</p>
+            <!-- 選択されたモンスター -->
+            <div style="color: aliceblue;">
+                <div class="chosen_monster">
+                </div>
+            </div>
+        </div>
     </div>
 
-    <a href="./battle/fight">
+    <!-- キャラ決定して、バトルページへ遷移するボタン -->
+    <form action="./fight" method="post">
+        <!-- 選択したキャラ情報 -->
+        <input type="hidden" id="player1" name="player1" value="">
+        <input type="hidden" id="player2" name="player2" value="">
         <div class="button-area">
-            <button type="button" class="nes-btn is-error">GO BATTLE</button>
+            <button type="submit" class="nes-btn is-error" id="go-battle">GO BATTLE</button>
         </div>
-    </a>
+    </form>
+
+    <!-- モーダル表示 -->
+    <div id="modal" class="test" style="display:none;">
+        <div id="choice"></div>
+    </div>
+
 
 </div>
 <!--- BGM読み込み -->

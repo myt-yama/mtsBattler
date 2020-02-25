@@ -5,7 +5,7 @@ from models import redismodel
 
 app: Bottle = Bottle()
 
-@app.route('/')
+@app.route('/', 'POST')
 def index():
     """
     戦闘画面
