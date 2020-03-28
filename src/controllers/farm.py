@@ -8,12 +8,15 @@ app: Bottle = Bottle()
 class FarmController(Controller):
     def __init__(self):
         super().__init__(__file__)
+
+
 controller = FarmController()
 
 confirm_buttons = {
-    'cancel' : '0',
-    'register' : '1',
+    'cancel': '0',
+    'register': '1',
 }
+
 
 @app.route('/')
 def index():
@@ -25,6 +28,7 @@ def index():
     monsters = redismodel.RedisMonster().select_all(team)
     logging.info(monsters)
     return controller.template('index', monsters=monsters, button_message='ばいばい')
+
 
 @app.route('/summon')
 def summon():
@@ -38,6 +42,7 @@ def summon():
     teams = redismodel.RedisTeams().select()
     return controller.template('summon', teams=teams)
 
+
 @app.route('/summon', 'POST')
 def summon_post():
     """
@@ -49,18 +54,19 @@ def summon_post():
     templateオブジェクト
     """
     monster_params = {
-        'name' : request.forms.getunicode('name'),
-        'team' : request.forms.getunicode('team'),
+        'name': request.forms.getunicode('name'),
+        'team': request.forms.getunicode('team'),
     }
 
     monster = Monster(monster_params, True)
     redismodel.RedisMonster().register(monster, True)
     params = {
-        'monster' : monster,
-        'confirm_buttons' : confirm_buttons,
+        'monster': monster,
+        'confirm_buttons': confirm_buttons,
     }
 
-    return controller.template('status',params=params)
+    return controller.template('status', params=params)
+
 
 @app.route('/register', 'POST')
 def register():
@@ -72,12 +78,13 @@ def register():
     register_flg = request.forms.getunicode('register_flg')
     if register_flg == confirm_buttons['register']:
         # 登録
-        monster = redismodel.RedisMonster().select('tmp-'+id)
-        redismodel.RedisMonster().delete('tmp-'+id)
+        monster = redismodel.RedisMonster().select('tmp-' + id)
+        redismodel.RedisMonster().delete('tmp-' + id)
         redismodel.RedisMonster().register(monster)
     else:
         # キャンセル
-        redismodel.RedisMonster().delete('tmp-'+id)
+        redismodel.RedisMonster().delete('tmp-' + id)
+
 
 @app.route('/delete', 'POST')
 def delete():
