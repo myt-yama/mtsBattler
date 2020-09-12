@@ -15,6 +15,8 @@ class Battle:
         コマンド
     monster_number  : int
         参加モンスター数
+    _is_set_monster  : bool
+        モンスターがセットされてるか
     Px_team         : str
         Px_チーム名
     Px_name         : str
@@ -32,48 +34,75 @@ class Battle:
         'team',
         'name',
         'hp',
-        'attribute_cd',
-        'attribute',
+        # 'attribute_cd',
+        # 'attribute',
         'charge',
     ]
 
-    def __init__(self, battle_id=None, commands=None):
+    def __init__(self, battle_id=None):
         """
         初期化メソッド
+            バトル開始（battle_idがない場合）はbattle_idを発行する
+            バトル中はbattle_idをセットする
         """
+        if battle_id is None:
+            battle_id = self._generate_battle_id()
         self.battle_id = battle_id
-        self.commands = commands
+        self._is_set_monster = false
 
-    def select(self):
+    def fetch_situation(self):
         """
         バトル状況取得メソッド
         """
-        battle_status = redismodel.RedisBattle().select(self.battle_id)
-        self.monster_number = int(battle_status['monster_number'])
-        set_params_func = self._exec_func_to_battle_params(
-            self._set_battle_param, self.monster_number)
-        set_params_func(battle_status)
+        # TODO: データ取得処理修正
+        monsters_state = redismodel.RedisBattle().select(self.battle_id)
+
+        self.monster_number = len(monsters_state)
+        for state in monsters_state:
+            self._set_state(state)
+        self._is_set_monster = True
+
+    def _set_state(state):
+        player = state[player]
+        for db_param in Battle.battle_parameters_in_db:
+            param = self.get_parameter(player, db_param)
+            setattr(self, param, state[db_param])
+
 
     def register(self):
         """
         バトル状況登録メソッド
         """
-        battle_status = {
-            'monster_number': self.monster_number,
-        }
-        get_params_func = self._exec_func_to_battle_params(
-            self._get_battle_params, self.monster_number)
-        params = get_params_func()
-        battle_status.update(params)
+        # モンスターがセットされてるかチェック
+        if not self._is_set_monster:
+            # TODO: 例外処理
+            logging.err("モンスターがセットされていません")
+            return False
 
-        redismodel.RedisBattle().register(self.battle_id, battle_status)
+        # DB登録用にデータを加工
+        situation = self._convert_situation_for_db()
+
+        # 登録
+        redismodel.RedisBattle().register(self.battle_id, situation)
+
+    def _convert_situation_for_db():
+        pass
+
 
     def set_monsters(self, monsters):
         self.monster_number = len(monsters)
-        set_params_func = self._exec_func_to_battle_params(
-            self._set_battle_param, self.monster_number)
-        set_params_func(monsters)
-        self.battle_id = 1000
+        for i, monster in enumerate(monsters):
+            self._set_state(self._convert_monster_to_state(i ,monster))
+        self._is_set_monster = True
+
+    def _convert_monster_to_state(self, player, monster):
+        state = []
+        state['player'] = player
+        state['charge'] = 0
+        for db_param in Battle.battle_parameters_in_db:
+            state[db_param] = getattr(monster, db_param)
+
+        return state
 
     def get_parameter(self, player_number, parameter):
         return 'P' + str(player_number) + '_' + parameter
@@ -81,37 +110,3 @@ class Battle:
     def fight(self):
         pass
 
-    def _exec_func_to_battle_params(self, func, total_monster_number):
-        def inner(*args):
-            result = {}
-            for itr in range(total_monster_number):
-                # DBへの登録対象となるパラメータをループで処理する
-                for db_param in Battle.battle_parameters_in_db:
-                    battle_param_name = self.get_parameter(itr+1, db_param)
-                    func_args = (itr, db_param)+args
-                    result[battle_param_name] = func(*func_args)
-            return result
-        return inner
-
-    def _set_battle_param(self, itr, db_param, battle_params):
-        player_number = itr+1
-        battle_param_name = self.get_parameter(player_number, db_param)
-        battle_param = self._get_battle_param_by_type(
-            itr, battle_param_name, db_param, battle_params)
-
-        setattr(self, battle_param_name, battle_param)
-
-    def _get_battle_param_by_type(self, itr, battle_param_name, db_param, battle_params):
-        if isinstance(battle_params, dict):
-            return battle_params[battle_param_name]
-        if isinstance(battle_params[itr], Monster):
-            # Monsterクラスにないパラメータ, 初期値を設定する
-            if db_param == "charge":
-                return 0
-
-            return getattr(battle_params[itr], db_param)
-
-    def _get_battle_params(self, itr, db_param):
-        player_number = itr+1
-        battle_param_name = self.get_parameter(player_number, db_param)
-        return getattr(self, battle_param_name)

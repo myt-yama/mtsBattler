@@ -29,16 +29,17 @@ class FightController(Controller):
         """
 
         battle_id = request.forms.getunicode('battle_id')
-        battle_commands = {
+        commands = {
             'P1' : request.forms.get('battle_command_P1'),
             'P2' : request.forms.get('battle_command_P2'),
         }
 
-        battle = Battle(battle_id, battle_commands)
+        battle = Battle(battle_id)
         battle.select()
 
         # TODO: バトルロジック作成
+        battle.set_command(commands)
         battle.fight()
-        logging.info(battle.commands)
+        # logging.info(battle.commands)
 
         return template('fight_index', battle=battle)
