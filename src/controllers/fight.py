@@ -1,7 +1,6 @@
 from controllers.controller import *
-from models.battle import Battle
 from models.monster import Monster
-from models import redismodel
+from facades.battlefacade import BattleFacade
 
 app: Bottle = Bottle()
 
@@ -16,9 +15,8 @@ class FightController(Controller):
             Monster({'name': 'Taro', 'team': 'team-B'}, True),
         ]
 
-        battle = Battle()
-        battle.set_monsters(monsters)
-        battle.register()
+        battle_facade = BattleFacade()
+        battle = battle_facade.ready(monsters)
 
         return template('fight_index', battle=battle)
 
@@ -34,12 +32,8 @@ class FightController(Controller):
             'P2' : request.forms.get('battle_command_P2'),
         }
 
-        battle = Battle(battle_id)
-        battle.select()
-
-        # TODO: バトルロジック作成
-        battle.set_command(commands)
-        battle.fight()
+        battle_facade = BattleFacade(battle_id)
+        battle = battle_facade.fight(commands)
         # logging.info(battle.commands)
 
         return template('fight_index', battle=battle)
