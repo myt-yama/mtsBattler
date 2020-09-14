@@ -8,7 +8,7 @@ class BattleFacade:
         self.redis_battle = RedisBattle(self.battle)
 
     def ready(self, monsters):
-        self.battle.set_monster_states(monsters)
+        self.battle.set_monsters(monsters)
         self.redis_battle.save()
 
         return self.battle

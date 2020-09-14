@@ -19,7 +19,7 @@ class RedisBattle:
             pipe.hgetall(key)
         monster_states = pipe.execute()
 
-        self.battle.set_battle_state(battle_data, monster_states)
+        self.battle.set_states(battle_data, monster_states)
 
     def save(self):
         pipe = self.redis.pipeline()

@@ -24,11 +24,11 @@ class MonsterState:
             'charge'
         ]
 
-    def set_battle_monster(self, player, monster):
+    def set_monster(self, player, monster):
         self.player = player
-        self.team = monster['team']
-        self.name = monster['name']
-        self.hp = monster['hp']
+        self.team = monster.team
+        self.name = monster.name
+        self.hp = monster.hp
         self.charge = 0
 
     def set_monster_state(self, state):

@@ -34,26 +34,25 @@ class Battle:
         self.turn = 0
         self.monster_states = []
 
-    def set_battle_state(self, battle_state, monster_states):
+    def set_states(self, battle_state, monster_states):
         """
         バトル状況取得メソッド
         """
         self.turn = battle_state['turn']
         self.player_sum = battle_state['player_sum']
 
-        #TODO: 共通化
         for monster_state in monster_states:
             ms = MonsterState()
-            ms.set_monster_state(monster_state)
-            self.monster_states.insert(i+1, ms)
+            ms.set_states(monster_state)
+            self.monster_states.insert(monster_state['player'], ms)
 
-    def set_monster_states(self, monsters):
-        #TODO: 共通化
+    def set_monsters(self, monsters):
         self.player_sum = len(monsters)
         for i, monster in enumerate(monsters):
             ms = MonsterState()
-            ms.set_battle_monster(i+1, monster)
+            ms.set_monster(i+1, monster)
             self.monster_states.insert(i+1, ms)
+
     def set_commands(self, commands):
         self.commands = commands
 
