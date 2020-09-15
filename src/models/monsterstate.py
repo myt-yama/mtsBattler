@@ -20,6 +20,7 @@ class MonsterState:
         return [
             'player',
             'team',
+            'name',
             'hp',
             'charge'
         ]
@@ -31,13 +32,9 @@ class MonsterState:
         self.hp = monster.hp
         self.charge = 0
 
-    def set_monster_state(self, state):
+    def set_states(self, state):
         self.player = state['player']
         self.team = state['team']
         self.name = state['name']
         self.hp = state['hp']
         self.charge = state['charge']
-
-
-
-

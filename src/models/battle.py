@@ -44,7 +44,7 @@ class Battle:
         for monster_state in monster_states:
             ms = MonsterState()
             ms.set_states(monster_state)
-            self.monster_states.insert(monster_state['player'], ms)
+            self.monster_states.insert(int(monster_state['player']), ms)
 
     def set_monsters(self, monsters):
         self.player_sum = len(monsters)
@@ -58,3 +58,6 @@ class Battle:
 
     def fight(self):
         pass
+
+    def _generate_battle_id(self):
+        return 1000

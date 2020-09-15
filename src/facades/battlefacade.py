@@ -1,5 +1,6 @@
-from models.battle
-from models.redismodel
+from models.model import *
+from models.battle import Battle
+from models.redisbattle import RedisBattle
 
 
 class BattleFacade:
@@ -19,7 +20,7 @@ class BattleFacade:
         # TODO: バトルロジック作成
         self.battle.set_commands(commands)
         self.battle.fight()
-        self.battle.save()
+        self.redis_battle.save()
         # logging.info(battle.commands)
 
         return self.battle
