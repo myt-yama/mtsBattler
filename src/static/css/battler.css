@@ -1,6 +1,3 @@
-@font-face {
-  font-family: "battle";
-  src: url("/static/NuAnkoMochi-BarHrE-1.otf"); }
 .battler {
     height: 100vh;
     background-color: #212529;
@@ -10,7 +7,6 @@
     justify-content: center;
 }
 .wrapper {
-    font-family: "battle";
     text-align: center;
 }
 .wrapper h1 {

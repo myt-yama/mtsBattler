@@ -3,13 +3,20 @@ from models.monster import Monster
 from models import redismodel
 
 app: Bottle = Bottle()
-viewdir = os.path.splitext(os.path.basename(__file__))[0]+'/'
 
-# 
+
+class FarmController(Controller):
+    def __init__(self):
+        super().__init__(__file__)
+
+
+controller = FarmController()
+
 confirm_buttons = {
-    'cancel' : '0',
-    'register' : '1',
+    'cancel': '0',
+    'register': '1',
 }
+
 
 @app.route('/')
 def index():
@@ -20,7 +27,8 @@ def index():
     team = 'team-A'
     monsters = redismodel.RedisMonster().select_all(team)
     logging.info(monsters)
-    return template(viewdir+'index', monsters=monsters, button_message='ばいばい')
+    return controller.template('index', monsters=monsters, button_message='ばいばい')
+
 
 @app.route('/summon')
 def summon():
@@ -32,7 +40,8 @@ def summon():
     templateオブジェクト
     """
     teams = redismodel.RedisTeams().select()
-    return template(viewdir+'summon', teams=teams)
+    return controller.template('summon', teams=teams)
+
 
 @app.route('/summon', 'POST')
 def summon_post():
@@ -45,18 +54,19 @@ def summon_post():
     templateオブジェクト
     """
     monster_params = {
-        'name' : request.forms.getunicode('name'),
-        'team' : request.forms.getunicode('team'),
+        'name': request.forms.getunicode('name'),
+        'team': request.forms.getunicode('team'),
     }
 
     monster = Monster(monster_params, True)
     redismodel.RedisMonster().register(monster, True)
     params = {
-        'monster' : monster,
-        'confirm_buttons' : confirm_buttons,
+        'monster': monster,
+        'confirm_buttons': confirm_buttons,
     }
 
-    return template('status',params=params)
+    return controller.template('status', params=params)
+
 
 @app.route('/register', 'POST')
 def register():
@@ -68,12 +78,13 @@ def register():
     register_flg = request.forms.getunicode('register_flg')
     if register_flg == confirm_buttons['register']:
         # 登録
-        monster = redismodel.RedisMonster().select('tmp-'+id)
-        redismodel.RedisMonster().delete('tmp-'+id)
+        monster = redismodel.RedisMonster().select('tmp-' + id)
+        redismodel.RedisMonster().delete('tmp-' + id)
         redismodel.RedisMonster().register(monster)
     else:
         # キャンセル
-        redismodel.RedisMonster().delete('tmp-'+id)
+        redismodel.RedisMonster().delete('tmp-' + id)
+
 
 @app.route('/delete', 'POST')
 def delete():
@@ -85,4 +96,4 @@ def delete():
     redismodel.RedisMonster().delete_all(key, team)
 
     monsters = redismodel.RedisMonster().select_all(team)
-    return template(viewdir+'monster', monsters=monsters)
+    return controller.template('monster', monsters=monsters)
