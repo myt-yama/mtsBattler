@@ -1,6 +1,6 @@
 from bottle import route, run, static_file, Bottle
 from bottle import jinja2_template as template
-from controllers import farm, vs, battle
+from controllers import farm, vs
 
 main: Bottle = Bottle()
 
@@ -17,7 +17,7 @@ def battler():
 
 # 以下、URLに対応する別々のモジュールを呼ぶ
 main.mount('/battler/farm', farm.app)
-main.mount('/battler/battle', battle.app)
+main.mount('/battler/vs', vs.app)
 
 
 if __name__ == '__main__':
