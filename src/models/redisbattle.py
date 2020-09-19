@@ -8,12 +8,12 @@ class RedisBattle:
         if battle is None:
             battle = Battle()
         self.battle = battle
-        self.redis = DbAccess.get_connection_to_redis()
+        self._redis = DbAccess.get_connection_to_redis()
 
     def fetch(self):
-        battle_data = self.redis.hgetall(self.battle.battle_id)
+        battle_data = self._redis.hgetall(self.battle.battle_id)
 
-        pipe = self.redis.pipeline()
+        pipe = self._redis.pipeline()
         for player in range(1, int(battle_data['player_sum'])+1):
             key = self._gen_monster_key(self.battle.battle_id, player)
             pipe.hgetall(key)
@@ -22,7 +22,7 @@ class RedisBattle:
         self.battle.set_states(battle_data, monster_states)
 
     def save(self):
-        pipe = self.redis.pipeline()
+        pipe = self._redis.pipeline()
 
         battle_id = self.battle.battle_id
         # 登録

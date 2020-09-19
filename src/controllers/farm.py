@@ -1,6 +1,8 @@
 from controllers.controller import *
-from models.monster import Monster
-from models import redismodel
+from facades.farmfacade import FarmFacade
+from facades.summonfacade import SummonFacade
+# from models.monster import Monster
+# from models import redismodel
 
 app: Bottle = Bottle()
 
@@ -23,9 +25,9 @@ def index():
     """
     モンスター管理画面表示
     """
-
     team = 'team-A'
-    monsters = redismodel.RedisMonster().select_all(team)
+    farm_facade = FarmFacade()
+    monsters = farm_facade.fetch_monsters(team)
     logging.info(monsters)
     return controller.template('index', monsters=monsters, button_message='ばいばい')
 
@@ -39,7 +41,8 @@ def summon():
     ----------
     templateオブジェクト
     """
-    teams = redismodel.RedisTeams().select()
+    summon_facade = SummonFacade()
+    teams = summon_facade.fetch_teams()
     return controller.template('summon', teams=teams)
 
 
@@ -53,13 +56,11 @@ def summon_post():
     ----------
     templateオブジェクト
     """
-    monster_params = {
-        'name': request.forms.getunicode('name'),
-        'team': request.forms.getunicode('team'),
-    }
+    name = request.forms.getunicode('name')
+    team = request.forms.getunicode('team')
 
-    monster = Monster(monster_params, True)
-    redismodel.RedisMonster().register(monster, True)
+    summon_facade = SummonFacade()
+    monster = summon_facade.summon(team, name)
     params = {
         'monster': monster,
         'confirm_buttons': confirm_buttons,
@@ -74,26 +75,34 @@ def register():
     モンスター登録処理
         本登録 or キャンセル（仮登録データ削除）
     """
+
     id = request.forms.getunicode('id')
     register_flg = request.forms.getunicode('register_flg')
+
+    logging.info(register_flg)
+    summon_facade = SummonFacade(id)
     if register_flg == confirm_buttons['register']:
         # 登録
-        monster = redismodel.RedisMonster().select('tmp-' + id)
-        redismodel.RedisMonster().delete('tmp-' + id)
-        redismodel.RedisMonster().register(monster)
+        logging.info('regist')
+        summon_facade.register()
     else:
         # キャンセル
-        redismodel.RedisMonster().delete('tmp-' + id)
+        logging.info('cancel')
+        summon_facade.delete()
 
 
+# TODO: 修正
 @app.route('/delete', 'POST')
 def delete():
     """
     モンスター削除処理
     """
-    key = request.forms.getunicode('key')
+    id = request.forms.getunicode('id')
     team = request.forms.getunicode('team')
-    redismodel.RedisMonster().delete_all(key, team)
 
-    monsters = redismodel.RedisMonster().select_all(team)
+    summon_facade = SummonFacade(id)
+    summon_facade.delete()
+
+    farm_facade = FarmFacade()
+    monsters = farm_facade.fetch_monsters(team)
     return controller.template('monster', monsters=monsters)

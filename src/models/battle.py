@@ -1,7 +1,5 @@
 from models.model import *
-from models.monster import Monster
 from models.monsterstate import MonsterState
-from models import redismodel
 
 
 class Battle:

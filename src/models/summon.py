@@ -4,12 +4,14 @@ import urllib.request
 import json
 import math
 
+
 class Summon:
     """
     モンスター生成クラス
-    　モンスターのパラメータを生成する
+        モンスターのパラメータを生成する
     """
-    def __init__(self, monster, summon_flg = False):
+
+    def __init__(self, monster):
         """
         パラメータを生成する
 
@@ -19,8 +21,6 @@ class Summon:
         summon_flg : boolean
         """
         self.monster = monster
-        if summon_flg:
-            self.genereate_parameters_by_name(monster.get_name())
 
     def genereate_parameters_by_name(self, name):
         """
@@ -38,7 +38,7 @@ class Summon:
 
         self.assign_image(base_value)
         self.assign_points_to_status(status_points, percentages)
-        self.generate_attribute(kanji)
+        # self.generate_attribute(kanji)
 
     def generate_status_points(self, value):
         points = 140 + (value % 20)
@@ -51,51 +51,45 @@ class Summon:
             for j in range(4):
                 select.append(j)
         patterns = [
-            [0.2,0.2,0.6],
-            [0.2,0.3,0.5],
-            [0.2,0.4,0.4],
-            [0.3,0.3,0.4],
+            [0.2, 0.2, 0.6],
+            [0.2, 0.3, 0.5],
+            [0.2, 0.4, 0.4],
+            [0.3, 0.3, 0.4],
         ]
         table = patterns[select[int(str(value)[round(len(str(value))/2)])]]
 
         percentages = []
-        if value%6 == 0:
+        if value % 6 == 0:
             percentages.append(table[0])
             percentages.append(table[1])
             percentages.append(table[2])
-        elif value%6 == 1:
+        elif value % 6 == 1:
             percentages.append(table[0])
             percentages.append(table[2])
             percentages.append(table[1])
-        elif value%6 == 2:
+        elif value % 6 == 2:
             percentages.append(table[1])
             percentages.append(table[0])
             percentages.append(table[2])
-        elif value%6 == 3:
+        elif value % 6 == 3:
             percentages.append(table[1])
             percentages.append(table[2])
             percentages.append(table[0])
-        elif value%6 == 4:
+        elif value % 6 == 4:
             percentages.append(table[2])
             percentages.append(table[0])
             percentages.append(table[1])
-        elif value%6 == 5:
+        elif value % 6 == 5:
             percentages.append(table[2])
             percentages.append(table[1])
             percentages.append(table[0])
 
         return percentages
 
-
-
     def assign_points_to_status(self, points, percentages):
-        hp = math.floor((50 + points * percentages[0]) * 5)
-        power = math.floor(50 + points * percentages[1])
-        defence = math.floor(50 + points * percentages[2])
-
-        self.monster.set_hp(hp)
-        self.monster.set_power(power)
-        self.monster.set_defence(defence)
+        self.monster.hp = math.floor((50 + points * percentages[0]) * 5)
+        self.monster.power = math.floor(50 + points * percentages[1])
+        self.monster.defence = math.floor(50 + points * percentages[2])
 
     def generate_attribute(self, kanji):
         """
@@ -108,7 +102,7 @@ class Summon:
         """
         # TODO: ロジック作る
         bushu_codes = self._select_bushu_codes(kanji)
-        self.monster.set_attribute_cd(self._judge_attribute(bushu_codes))
+        self.monster.attribute_cd = self._judge_attribute(bushu_codes)
 
     def assign_image(self, value):
         if value % 2 == 0:
@@ -130,7 +124,8 @@ class Summon:
         kanji : string
             漢字のみ
         """
-        kanji_regex = re.compile('[\u2E80-\u2FDF\u3005-\u3007\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF\U00020000-\U0002EBEF]+')
+        kanji_regex = re.compile(
+            '[\u2E80-\u2FDF\u3005-\u3007\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF\U00020000-\U0002EBEF]+')
         kanji = ''.join(kanji_regex.findall(value))
         return kanji
 
@@ -149,12 +144,12 @@ class Summon:
             属性コード
         """
         # TODO:redisから取得する
-        fire  = { i*3 for i in range(70) }
-        water = { i*7 for i in range(30) }
-        grass = { i*5 for i in range(42) }
+        fire = {i*3 for i in range(70)}
+        water = {i*7 for i in range(30)}
+        grass = {i*5 for i in range(42)}
 
         ret = []
-        if len(bushu_codes)>0:
+        if len(bushu_codes) > 0:
             bushu_codes_set = set(bushu_codes)
             if len(fire & bushu_codes_set) > 0:
                 ret.append('1')
@@ -219,7 +214,7 @@ class Summon:
     def _convert_string_to_int(self, val):
         """
         文字列をintへ変換する
-        　文字列 -> 16進数 -> 10進数
+            文字列 -> 16進数 -> 10進数
 
         Parameters
         ----------
@@ -229,7 +224,5 @@ class Summon:
         Returns : int
             10進数に変換した値
         """
+        logging.info(val)
         return int(val.encode('utf-8').hex(), 16)
-
-    def get_monster(self):
-        return self.monster
