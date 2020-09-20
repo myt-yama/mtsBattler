@@ -10,11 +10,11 @@ class Battle:
     ----------
     battle_id   : int
         バトルID
-    commands    : list[int]
+    commands    : dict[int]
         コマンド
     player_sum  : int
         参加プレイヤー数
-    monster_states    : list[MonsterState]
+    monster_states    : dict[MonsterState]
         モンスターリスト
     turn        : int
         経過ターン数
@@ -30,7 +30,7 @@ class Battle:
             battle_id = self._generate_battle_id()
         self.battle_id = battle_id
         self.turn = 0
-        self.monster_states = []
+        self.monster_states = {}
 
     def set_states(self, battle_state, monster_states):
         """
@@ -42,14 +42,14 @@ class Battle:
         for monster_state in monster_states:
             ms = MonsterState()
             ms.set_states(monster_state)
-            self.monster_states.insert(int(monster_state['player']), ms)
+            self.monster_states[int(monster_state['player'])] = ms
 
     def set_monsters(self, monsters):
         self.player_sum = len(monsters)
         for i, monster in enumerate(monsters):
             ms = MonsterState()
             ms.set_monster(i+1, monster)
-            self.monster_states.insert(i+1, ms)
+            self.monster_states[i+1] = ms
 
     def set_commands(self, commands):
         self.commands = commands
