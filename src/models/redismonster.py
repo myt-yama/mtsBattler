@@ -48,10 +48,13 @@ class RedisMonster:
         pipe.hset(key, 'image_path', self.monster.image_path)
         pipe.execute()
 
-    def delete_tmp(self):
-        self._delete('tmp-'+self.monster.id)
+    def delete_tmp(self, key=None):
+        if key is None:
+            key = self.monster.id
+        pipe = self._redis.pipeline()
+        self._delete('tmp-'+key, pipe)
 
-    def delete(self):
+    def delete(self, key=None, team=None):
         """
         モンスターの削除処理
 
@@ -60,10 +63,17 @@ class RedisMonster:
         key : str
             モンスター識別キー
         """
-        self._delete(self.monster.id)
+        if key is None or team is None:
+            key = self.monster.id
+            team = self.monster.team
 
-    def _delete(self, key):
-        self._redis.delete(key)
+        pipe = self._redis.pipeline()
+        pipe.srem(team+'-monster', key)
+        self._delete(key, pipe)
+
+    def _delete(self, key, pipe):
+        pipe.delete(key)
+        pipe.execute()
 
     def delete_all(self, key, team):
         """
@@ -83,10 +93,12 @@ class RedisMonster:
         pipe.srem(team+'-monster', key)
         pipe.execute()
 
-    def fetch_tmp(self):
-        self._fetch('tmp-' + self.monster.id)
+    def fetch_tmp(self, key=None):
+        if key is None:
+            key = self.monster.id
+        self._fetch('tmp-' + key)
 
-    def fetch(self, key):
+    def fetch(self, key=None):
         """
         モンスター取得処理
             キーで指定したモンスターを取得する
@@ -100,7 +112,9 @@ class RedisMonster:
         ----------
         Monsterクラス
         """
-        self._fetch(self.monster.id)
+        if key is None:
+            key = self.monster.id
+        self._fetch(key)
 
     def _fetch(self, key):
         params = self._redis.hgetall(key)
@@ -120,7 +134,8 @@ class RedisMonster:
             pipe.hgetall(key)
 
         for monster in pipe.execute():
-            monster['team'] = team
-            self.monster_list.append_monster(Monster(monster))
+            monster_obj = Monster()
+            monster_obj.set_params(monster)
+            self.monster_list.append_monster(monster_obj)
 
         return self.monster_list.list if not self.monster_list.list == [] else None

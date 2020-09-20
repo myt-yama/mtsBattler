@@ -26,16 +26,16 @@ def battle():
     戦闘画面
     """
     battle_id = request.forms.getunicode('battle_id')
-    logging.info(battle_id)
+    # logging.info(battle_id)
 
     if battle_id is None:
-        monsters = [
-            Monster({'name': 'Jiro', 'team': 'team-A'}, True),
-            Monster({'name': 'Taro', 'team': 'team-B'}, True),
+        monster_ids = [
+            'team-A-jiro',
+            'team-A-mini'
         ]
 
         battle_facade = BattleFacade()
-        battle = battle_facade.ready(monsters)
+        battle = battle_facade.ready(monster_ids)
     else:
         commands = {
             'P1': request.forms.get('battle_command_P1'),

@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 {% block title %}
-    <title>モンスターかんり</title>
+<title>モンスターかんり</title>
 {% endblock %}
 {% block static %}
-    <link rel="stylesheet" type="text/css" href="/static/css/farm.css">
-    <script type="text/javascript" src="/static/js/farm.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/farm.css">
+<script type="text/javascript" src="/static/js/farm.js"></script>
 {% endblock %}
 {% block body %}
-    <div class=manage-monster>
-        <div class="header">
-            <h1>モンスターかんり</h1>
-            <h3><a href="farm/summon">なかまをさがす</a></h3>
-        </div>
-        <div class="manage-box">
-            {% include "monster_list.html" %}
-        </div>
+<div class=manage-monster>
+    <div class="header">
+        <h1>モンスターかんり</h1>
+        <h3><a href="farm/summon">なかまをさがす</a></h3>
     </div>
+    <div class="manage-box">
+        {% include "farm/monster_list.html" %}
+    </div>
+</div>
 {% endblock %}

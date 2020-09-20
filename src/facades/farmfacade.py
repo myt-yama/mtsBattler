@@ -9,3 +9,4 @@ class FarmFacade:
 
     def fetch_monsters(self, team):
         self.monsters = self.redis_monster.fetch_all(team)
+        return self.monsters

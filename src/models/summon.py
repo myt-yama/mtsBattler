@@ -22,7 +22,7 @@ class Summon:
         """
         self.monster = monster
 
-    def genereate_parameters_by_name(self, name):
+    def generate_parameters_by_name(self, name):
         """
         名前を元にすべてのパラメータを生成しセットする
 
@@ -32,20 +32,20 @@ class Summon:
             モンスター生成の元データ
         """
         base_value = self._convert_string_to_int(name)
-        status_points = self.generate_status_points(base_value)
-        percentages = self.decide_percentage(base_value)
+        status_points = self._generate_status_points(base_value)
+        percentages = self._decide_percentage(base_value)
         kanji = self._select_kanji(name)
 
         self.assign_image(base_value)
         self.assign_points_to_status(status_points, percentages)
         # self.generate_attribute(kanji)
 
-    def generate_status_points(self, value):
+    def _generate_status_points(self, value):
         points = 140 + (value % 20)
 
         return points
 
-    def decide_percentage(self, value):
+    def _decide_percentage(self, value):
         select = []
         for i in range(3):
             for j in range(4):

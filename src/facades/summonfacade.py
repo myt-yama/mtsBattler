@@ -22,5 +22,8 @@ class SummonFacade:
         self.redis_monster.delete_tmp()
         self.redis_monster.register()
 
-    def delete(self):
+    def register_cancel(self):
         self.redis_monster.delete_tmp()
+
+    def delete(self, key, team):
+        self.redis_monster.delete(key, team)

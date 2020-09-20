@@ -68,7 +68,7 @@ class Monster:
     def generate(self, team, name):
         self.team = team
         self.name = name
-        self.summon.genereate_parameters_by_name(name)
+        self.summon.generate_parameters_by_name(name)
 
 
 class MonsterList:

@@ -1,8 +1,6 @@
 from controllers.controller import *
 from facades.farmfacade import FarmFacade
 from facades.summonfacade import SummonFacade
-# from models.monster import Monster
-# from models import redismodel
 
 app: Bottle = Bottle()
 
@@ -88,7 +86,7 @@ def register():
     else:
         # キャンセル
         logging.info('cancel')
-        summon_facade.delete()
+        summon_facade.register_cancel()
 
 
 # TODO: 修正
@@ -97,11 +95,11 @@ def delete():
     """
     モンスター削除処理
     """
-    id = request.forms.getunicode('id')
+    id = request.forms.getunicode('key')
     team = request.forms.getunicode('team')
 
-    summon_facade = SummonFacade(id)
-    summon_facade.delete()
+    summon_facade = SummonFacade()
+    summon_facade.delete(id, team)
 
     farm_facade = FarmFacade()
     monsters = farm_facade.fetch_monsters(team)

@@ -29,7 +29,7 @@ class RedisBattle:
         # TODO:細かい修正
         pipe.hset(battle_id, 'player_sum', self.battle.player_sum)
         pipe.hset(battle_id, 'turn', self.battle.turn)
-        for monster_state in self.battle.monster_states:
+        for monster_state in self.battle.monster_states.values():
             for param in monster_state.get_monster_state_param():
                 key = self._gen_monster_key(battle_id, monster_state.player)
                 pipe.hset(key, param, getattr(monster_state, param))
